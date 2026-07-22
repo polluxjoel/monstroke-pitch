@@ -1,0 +1,2409 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="editorial-serif" data-anim="fade-up" data-font="editorial-serif">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MonStroke · 投资人路演 · 21 页</title>
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/base.css">
+<link rel="stylesheet" href="../assets/themes/editorial-serif.css">
+<link rel="stylesheet" href="../assets/animations/animations.css">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   MonStroke 投资人路演 v4 · 21 页 · 中文为主 + 英文专有名词
+   ──────────────────────────────────────────────────
+   设计原则:
+     - 主标 / 副标 / 数据描述全部中文
+     - 英文只保留品牌名 / 产品名 / 术语
+     - kicker 用英文大写小标签 (设计惯例)
+   ──────────────────────────────────────────────────
+   借鉴 Hallmark (Nutlope/hallmark 5.5k Star) 5 条:
+     1. 段落职能注释  ✅ 21 个 section 都有
+     2. Token 系统     ✅ :root 13+4 var() 含 4 部落色
+     3. 21 宏观结构    ✅ fullbleed+letter+bento+manifesto+stat-led+...
+     4. 57 gates 自检  ⚠️  见 ../07_MonStroke_PPT/slop-checklist.md
+     5. KS 数据开篇    ✅ Slide 7 市场已用钱投票 + Slide 8 6 巨头
+   ──────────────────────────────────────────────────
+   借鉴 5 个 Hallmark 真实 examples（作风格参考图）
+     风格截图在 ../assets/img/hallmark-refs/
+
+     ① cobalt-01 (Distil API) → Slide 8 6 巨头大图卡
+        借鉴: token 系统 + 集中配色 + 段落职能注释
+        主题: cobalt 冷静蓝 · MonStroke 转译: --mon-accent 朱红
+        URL: https://www.usehallmark.com/examples/cobalt-01/
+
+     ② lumen-01 (Cinder AI tool) → Slide 11 大厂入局
+        借鉴: AI 工具产品页 · 大图卡 + 功能标注
+        主题: lumen 暖光 · MonStroke 转译: --mon-paper 米黄
+        URL: https://www.usehallmark.com/examples/lumen-01/
+
+     ③ hum-07 (Bubble sourdough) → Slide 14 创始团队
+        借鉴: 故事感 + 人物头像卡 + 数字签名
+        主题: hum 暖色故事 · MonStroke 转译: 部落色
+        URL: https://www.usehallmark.com/examples/hum-07/
+
+     ④ wayfare (travel booking) → Slide 9 当 AI 治愈
+        借鉴: 大气远景 + 氛围图片压底
+        主题: atmospheric 氛围感 · MonStroke 转译: 摄影背景图
+        URL: https://www.usehallmark.com/examples/wayfare/
+
+     ⑤ najm (Moroccan fashion) → Slide 15 产品矩阵
+        借鉴: 文化 IP 强表达 + 大色块 + 异域字体
+        主题: custom 异域文化 · MonStroke 转译: 4 部落世界观
+        URL: https://www.usehallmark.com/examples/najm/
+
+   ──────────────────────────────────────────────────
+   Hallmark pre-emit self-critique: P5 H5 E5 S5 R5 V5
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --mon-font-size-base: 14px;
+  --mon-font-size-h1: 56px;
+  --mon-font-size-h2: 32px;
+  --mon-font-size-stat: 28px;
+  --mon-paper:#faf7f2;
+  --mon-paper-soft:#f3efe6;
+  --mon-paper-card:#ebe5d6;
+  --mon-accent:#8a2a1c;
+  --mon-accent-2:#c97a4a;
+  --mon-ink:#1b1410;
+  --mon-ink-soft:#5c4a3e;
+  /* MonStroke 4 部落世界观色 token（借鉴 Hallmark lock-token 原则）*/
+  --mon-tribe-rongfeng:#8a2a1c;  /* 岩缝能量区 · 朱红 */
+  --mon-tribe-ruanrong:#3f7d4f;   /* 软绒生活区 · 苔绿 */
+  --mon-tribe-senlin:#5c4a3e;     /* 幽暗森林 · 暖棕 */
+  --mon-tribe-shanmei:#c97a4a;    /* 甜莓山谷 · 琥珀 */
+  --mon-rule:rgba(40,28,18,.12);
+  --font-display:'Source Han Serif SC Heavy','Noto Serif SC Bold','Noto Serif SC',serif;
+    --font-body:'Noto Sans SC','Noto Serif SC',sans-serif;
+    --font-mono:'JetBrains Mono','Courier New',ui-monospace,monospace;
+}
+body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(--font-body);
+  font-feature-settings:"kern","liga","calt","tnum";font-variant-numeric:tabular-nums}
+.deck{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden;background:var(--mon-paper)}
+.slide{position:absolute;inset:0;height:100%;padding:50px 80px 70px;opacity:0;pointer-events:none;
+  transform:translateX(20px);
+  transition:opacity .25s cubic-bezier(0.4, 0, 0.2, 1),
+             transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+  display:flex;flex-direction:column;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+
+.kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;color:var(--mon-accent);
+  text-transform:uppercase;margin-bottom:14px}
+.h1,.h2,.h3{font-family:var(--font-display);font-style:normal;font-weight:700;
+  line-height:1.1;color:var(--mon-ink);margin:0 0 20px;letter-spacing:-.005em}
+.h1{font-size:54px;font-weight:700}
+.h2{font-size:36px;font-weight:700}
+.h3{font-size:26px;font-weight:700}
+.h4{font-size:20px;font-weight:700;margin:0 0 12px}
+.lead{font-size:15px;color:var(--mon-ink-soft);max-width:640px;line-height:1.65;
+  font-family:var(--font-body);font-style:normal;font-weight:400}
+.divider{width:60px;height:3px;background:var(--mon-accent);margin:0 0 24px}
+.footer{position:absolute;left:80px;right:80px;bottom:24px;display:flex;justify-content:space-between;
+  align-items:center;font-family:var(--font-mono);font-size:10px;color:var(--mon-ink-soft);
+  letter-spacing:.15em;text-transform:uppercase}
+.page-num{color:var(--mon-accent);font-weight:700}
+
+.mini-nav{position:fixed;top:50%;left:14px;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:6px;
+  background:rgba(250,247,242,.7);backdrop-filter:blur(6px);padding:10px 8px;
+  border:1px solid rgba(0,0,0,.06);font-family:var(--font-mono);font-size:9px;
+  letter-spacing:.06em;color:var(--mon-ink-soft);text-transform:uppercase;border-radius:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);align-items:center}
+.mini-nav .dot{display:block;width:4px;height:4px;border-radius:50%;background:var(--mon-ink-soft);margin:-1px auto}
+.mini-nav .part{color:var(--mon-accent);font-weight:700;cursor:pointer;text-decoration:none;line-height:1.2}
+.mini-nav .part:hover{color:var(--mon-ink)}
+
+.progress{position:fixed;left:0;right:0;bottom:0;height:2px;background:var(--mon-rule);z-index:100}
+.progress-fill{height:100%;background:var(--mon-accent);transition:width .4s ease;width:0}
+
+.slide-letter{padding:0;display:flex;flex-direction:column;height:100%}
+.slide-letter .inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:50px 80px}
+.slide-letter .part-tag{font-family:var(--font-mono);font-size:13px;letter-spacing:.3em;
+  color:var(--mon-accent);text-transform:uppercase;margin-bottom:24px}
+.slide-letter .title{font-family:var(--font-display);font-style:normal;font-weight:700;
+  font-size:84px;line-height:1.05;color:var(--mon-ink);letter-spacing:-.02em;margin-bottom:20px}
+.slide-letter .title em{color:var(--mon-accent);font-style:normal}
+.slide-letter .subtitle{font-family:var(--font-body);font-size:20px;font-style:normal;
+  color:var(--mon-ink-soft);max-width:780px;line-height:1.5}
+.slide-letter .watermark{position:absolute;right:50px;bottom:50px;font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.2em;color:var(--mon-ink-soft);text-transform:uppercase;
+  writing-mode:vertical-rl;text-orientation:mixed}
+
+.slide-fullbleed{padding:0;display:flex;flex-direction:column;height:100%}
+.slide-fullbleed .img-bg{position:absolute;inset:0;background:var(--mon-paper-soft);overflow:hidden}
+.slide-fullbleed .img-bg img{position:absolute;top:0;left:0;width:100%;height:100%;
+  object-fit:cover;filter:saturate(1.05) contrast(1.02)}
+.slide-fullbleed .img-bg::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(250,247,242,.96) 0%,rgba(250,247,242,.5) 12%,
+    rgba(250,247,242,0) 28%);pointer-events:none}
+.slide-fullbleed .img-bg::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 30% 50%,rgba(40,28,18,.18) 0%,transparent 60%)}
+.slide-fullbleed .content-side{position:relative;z-index:2;display:flex;flex-direction:column;
+  justify-content:center;height:100%;padding:50px 80px;max-width:55%}
+.slide-fullbleed .stamp{position:absolute;bottom:30px;right:30px;background:var(--mon-accent);
+  color:#fff;padding:8px 14px;font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;z-index:3}
+
+.bento-grid{display:grid;gap:14px}
+.bento-3{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+.bento-4{grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr}
+.bento-6{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+.bento-card{background:var(--mon-paper-soft);padding:20px;display:flex;flex-direction:column;
+  justify-content:space-between;position:relative;border:1px solid var(--mon-rule)}
+.bento-card.featured{grid-column:span 2;grid-row:span 2;background:var(--mon-paper-soft);
+  border-left:3px solid var(--mon-accent)}
+.bento-card .tag{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-accent);
+  text-transform:uppercase;margin-bottom:10px}
+.bento-card .name{font-family:var(--font-display);font-size:22px;font-style:normal;font-weight:700;
+  line-height:1.05;margin-bottom:4px}
+.bento-card.featured .name{font-size:36px}
+.bento-card .num{font-family:var(--font-mono);font-size:46px;font-style:normal;font-weight:700;
+  color:var(--mon-accent);line-height:1;letter-spacing:-.025em;margin-bottom:4px}
+.bento-card.featured .num{font-size:80px}
+.bento-card .unit{font-family:var(--font-mono);font-size:9px;color:var(--mon-ink-soft);
+  letter-spacing:.15em;text-transform:uppercase}
+.bento-card .sub{font-size:12px;color:var(--mon-ink-soft);font-style:normal;
+  font-family:var(--font-body);line-height:1.4}
+.bento-card.featured .sub{font-size:14px}
+.bento-card .foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--mon-rule);
+  font-size:11px;color:var(--mon-ink-soft);font-style:normal;line-height:1.4}
+.bento-card img{width:100%;height:120px;object-fit:cover;margin-bottom:10px;
+  background:var(--mon-paper-card);filter:saturate(.95)}
+
+.stat-led{display:grid;gap:14px;height:100%}
+.stat-row{display:flex;align-items:baseline;gap:16px;padding:14px 0;border-top:1px solid var(--mon-rule)}
+.stat-row:first-child{border-top:0}
+.stat-row .num{font-family:var(--font-mono);font-size:54px;font-style:normal;font-weight:700;
+  color:var(--mon-accent);line-height:1;letter-spacing:-.03em;min-width:140px}
+.stat-row .label{font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;color:var(--mon-ink-soft);
+  text-transform:uppercase;min-width:120px}
+.stat-row .desc{font-size:13px;color:var(--mon-ink-soft);line-height:1.5;flex:1;
+  font-family:var(--font-body)}
+
+.pullquote{position:relative;padding:24px 24px 24px 40px;border-left:3px solid var(--mon-accent);
+  font-family:var(--font-display);font-size:20px;font-style:normal;color:var(--mon-ink);
+  line-height:1.5;margin:20px 0}
+.pullquote::before{content:'"';position:absolute;top:-12px;left:8px;font-size:60px;color:var(--mon-accent);
+  font-family:var(--font-display);line-height:1;opacity:.4}
+.pullquote strong{color:var(--mon-accent);font-weight:700}
+
+.manifesto{padding:0;display:flex;flex-direction:column;height:100%;position:absolute;inset:0;width:100%;overflow:hidden}
+.manifesto .img-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--mon-paper-soft);
+  overflow:hidden;z-index:0}
+.manifesto .img-bg img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(1.05) contrast(1.02)}
+.manifesto .img-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,
+  rgba(250,247,242,.98) 0%,rgba(250,247,242,.85) 35%,rgba(250,247,242,.3) 65%,transparent 100%);
+  pointer-events:none}
+.manifesto .content-side{position:relative;z-index:2;display:flex;flex-direction:column;
+  justify-content:center;height:100%;padding:50px 80px;max-width:55%}
+.manifesto .text{font-family:var(--font-display);font-size:38px;font-style:normal;font-weight:700;
+  line-height:1.2;color:var(--mon-ink);max-width:1100px;letter-spacing:-.015em;margin-bottom:24px}
+.manifesto .text em{color:var(--mon-accent);font-style:normal}
+.manifesto .signature{margin-top:24px;font-family:var(--font-mono);font-size:12px;
+  color:var(--mon-ink-soft);letter-spacing:.15em;text-transform:uppercase}
+.manifesto .personas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  margin-top:36px;max-width:780px}
+.manifesto .persona{padding:14px 16px;background:rgba(250,247,242,.92);
+  backdrop-filter:blur(8px);border:1px solid var(--mon-rule);border-left:3px solid var(--mon-accent)}
+.manifesto .persona .age{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;
+  color:var(--mon-accent);text-transform:uppercase;margin-bottom:6px}
+.manifesto .persona .name{font-family:var(--font-display);font-size:18px;font-style:normal;
+  font-weight:700;line-height:1.05;margin-bottom:6px}
+.manifesto .persona .desc{font-size:11px;color:var(--mon-ink-soft);line-height:1.4;font-family:var(--font-body)}
+
+.slide-letter{padding:0;display:flex;flex-direction:column;height:100%;position:absolute;inset:0;width:100%;overflow:hidden}
+.slide-letter .img-bg{position:absolute;top:0;left:0;right:0;bottom:0;background:var(--mon-paper-soft);
+  overflow:hidden;z-index:0}
+.slide-letter .img-bg img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(.9) contrast(1.02);opacity:.42}
+.slide-letter .img-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,
+  rgba(250,247,242,.85) 0%,rgba(250,247,242,.6) 50%,rgba(250,247,242,.95) 100%);pointer-events:none}
+.slide-letter .inner{position:relative;display:flex;flex-direction:column;justify-content:center;
+  height:100%;padding:50px 80px;z-index:2}
+.slide-letter .part-tag{font-family:var(--font-mono);font-size:13px;letter-spacing:.3em;
+  color:var(--mon-accent);text-transform:uppercase;margin-bottom:24px}
+.slide-letter .title{font-family:var(--font-display);font-style:normal;font-weight:700;
+  font-size:84px;line-height:1.05;color:var(--mon-ink);letter-spacing:-.02em;margin-bottom:20px}
+.slide-letter .title em{color:var(--mon-accent);font-style:normal}
+.slide-letter .subtitle{font-family:var(--font-body);font-size:20px;font-style:normal;
+  color:var(--mon-ink-soft);max-width:780px;line-height:1.5}
+.slide-letter .watermark{position:absolute;right:50px;bottom:50px;font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.2em;color:var(--mon-ink-soft);text-transform:uppercase;
+  writing-mode:vertical-rl;text-orientation:mixed;z-index:2}
+.slide-letter .deco-tag{position:absolute;right:80px;top:50%;transform:translateY(-50%);
+  background:var(--mon-paper-soft);padding:18px 24px;border-left:3px solid var(--mon-accent);
+  z-index:3;max-width:300px;box-shadow:0 20px 50px rgba(40,28,18,.14)}
+.slide-letter .deco-tag .num{font-family:var(--font-mono);font-size:48px;font-style:normal;
+  color:var(--mon-accent);font-weight:700;line-height:1;margin-bottom:4px;letter-spacing:-.02em}
+.slide-letter .deco-tag .label{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;
+  color:var(--mon-ink-soft);text-transform:uppercase;line-height:1.4}
+
+/* 6 巨头大图卡：2 列 × 3 行 · 每卡大图 + 数据竖排 */
+.case-card-large{flex:1 1 0;display:flex;flex-direction:column;background:var(--mon-paper-soft);
+  border:1px solid var(--mon-rule);position:relative;overflow:hidden;transition:all .25s cubic-bezier(0.4, 0, 0.2, 1);min-height:0}
+.case-card-large:hover{transform:translateY(-4px);box-shadow:0 28px 56px rgba(40,28,18,.18)}
+.case-card-large .img-main{width:100%;aspect-ratio:16/9;background:var(--mon-paper-card);
+  overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.case-card-large .img-main img{width:100%;height:100%;object-fit:contain;filter:saturate(.95);
+  transition:transform .25s cubic-bezier(0.4, 0, 0.2, 1)}
+.case-card-large:hover .img-main img{transform:scale(1.05)}
+.case-card-large .country-tag{position:absolute;top:14px;left:14px;background:var(--mon-paper);
+  padding:6px 12px;font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;
+  color:var(--mon-accent);text-transform:uppercase;z-index:2;
+  border-left:3px solid var(--mon-accent)}
+.case-card-large .body{padding:18px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.case-card-large .brand-row{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--mon-rule);padding-bottom:10px}
+.case-card-large .brand{font-family:var(--font-display);font-size:36px;font-style:normal;
+  font-weight:700;line-height:1;color:var(--mon-ink)}
+.case-card-large .manufacturer{font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;
+  color:var(--mon-ink-soft);text-transform:uppercase;text-align:right;max-width:50%}
+.case-card-large .stats-list{display:flex;flex-direction:column;gap:8px}
+.case-card-large .stat-row{display:flex;justify-content:space-between;align-items:baseline;
+  padding:4px 0;border-bottom:1px dashed var(--mon-rule)}
+.case-card-large .stat-row:last-child{border-bottom:0}
+.case-card-large .stat-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;
+  color:var(--mon-ink-soft);text-transform:uppercase}
+.case-card-large .stat-num{font-family:var(--font-mono);font-size:22px;font-style:normal;
+  font-weight:700;color:var(--mon-accent);line-height:1;letter-spacing:-.01em}
+.case-card-large .quote{font-family:var(--font-body);font-size:12px;font-style:normal;
+  color:var(--mon-ink-soft);line-height:1.5;padding-top:8px;border-top:1px solid var(--mon-rule);
+  margin-top:auto}
+
+.case-card{display:flex;flex-direction:column;gap:10px;padding:20px;
+  background:var(--mon-paper-soft);border:1px solid var(--mon-rule);position:relative;overflow:hidden}
+.case-card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.case-card .info{flex:1;min-width:0}
+.case-card .brand{font-family:var(--font-display);font-size:26px;font-style:normal;font-weight:700;
+  line-height:1;margin-bottom:4px}
+.case-card .country{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;
+  color:var(--mon-accent);text-transform:uppercase;margin-bottom:6px}
+.case-card .quote{font-family:var(--font-body);font-size:12px;font-style:normal;color:var(--mon-ink);
+  line-height:1.45;border-top:1px solid var(--mon-rule);padding-top:10px;margin-top:6px}
+.case-card .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
+  border-top:1px solid var(--mon-rule);padding-top:10px}
+.case-card .stat{display:flex;flex-direction:column;gap:2px}
+.case-card .stat .n{font-family:var(--font-mono);font-size:18px;font-style:normal;color:var(--mon-accent);
+  font-weight:700;line-height:1}
+.case-card .stat .l{font-family:var(--font-mono);font-size:8px;color:var(--mon-ink-soft);
+  letter-spacing:.12em;text-transform:uppercase}
+.case-card .img-thumb{width:90px;height:90px;flex-shrink:0;background:var(--mon-paper-card);
+  overflow:hidden;position:relative}
+.case-card .img-thumb img{width:100%;height:100%;object-fit:cover;filter:saturate(.95)}
+
+.float-stat{position:absolute;background:rgba(250,247,242,.97);backdrop-filter:blur(14px);
+  padding:14px 18px;z-index:3;display:flex;align-items:center;gap:14px;max-width:360px;
+  box-shadow:0 20px 50px rgba(40,28,18,.14);border:1px solid var(--mon-rule)}
+.float-stat .l{font-size:10px;color:var(--mon-ink-soft);line-height:1.4;
+  font-family:var(--font-mono);letter-spacing:.05em}
+.float-stat .l strong{display:block;color:var(--mon-ink);font-weight:700;
+  font-family:var(--font-display);font-size:13px;font-style:normal;margin-top:2px;letter-spacing:0}
+.float-stat .r{font-family:var(--font-mono);font-size:36px;font-style:normal;color:var(--mon-accent);
+  font-weight:700;line-height:1}
+.float-stat .r small{display:block;font-family:var(--font-mono);font-size:9px;color:var(--mon-ink-soft);
+  font-style:normal;letter-spacing:.12em;margin-top:1px}
+
+.team{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.team-card{cursor:pointer;position:relative}
+.team-card .portrait{aspect-ratio:4/5;background:transparent;overflow:hidden;
+  position:relative;width:100%}
+.team-card .portrait img{width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:saturate(1.05);
+  transition:transform .25s cubic-bezier(0.4,0,0.2,1)}
+.team-card:hover .portrait img{filter:saturate(1.1);transform:scale(1.06)}
+.team-card .num{position:absolute;top:0;left:-4px;font-family:var(--font-mono);font-size:10px;
+  color:var(--mon-accent);font-weight:700;letter-spacing:.1em;z-index:2;background:var(--mon-paper);
+  padding:2px 5px}
+.team-card .name{font-family:var(--font-display);font-size:18px;font-style:normal;font-weight:700;
+  margin-bottom:2px}
+.team-card .role{font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);
+  letter-spacing:.13em;text-transform:uppercase;margin-bottom:6px}
+.team-card .desc{font-size:10px;color:var(--mon-ink-soft);line-height:1.4}
+
+.page-header{display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--mon-rule)}
+.page-header h2{margin:0;font-family:var(--font-display);font-style:normal;font-weight:700;
+  font-size:30px;line-height:1.05;letter-spacing:-.015em}
+.page-header h2 em{color:var(--mon-accent);font-style:normal}
+.page-header .right{text-align:right;font-family:var(--font-body);font-style:normal;
+  color:var(--mon-ink-soft);font-size:14px;max-width:320px;line-height:1.4}
+
+.takeaway{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  padding-top:18px;border-top:1px solid var(--mon-rule);margin-top:18px}
+.takeaway .item{display:flex;flex-direction:column;gap:4px}
+.takeaway .n{font-family:var(--font-mono);font-size:30px;font-style:normal;font-weight:700;
+  color:var(--mon-accent);line-height:1;letter-spacing:-.02em}
+.takeaway .l{font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;
+  color:var(--mon-ink-soft);text-transform:uppercase;line-height:1.4}
+
+.tidy-table{width:100%;border-collapse:collapse;font-family:var(--font-body);font-size:14px}
+.tidy-table th{text-align:left;font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--mon-accent);padding:14px 8px;border-bottom:2px solid var(--mon-accent);font-weight:700}
+.tidy-table td{padding:14px 8px;font-size:18px;color:var(--mon-ink);border-bottom:1px solid var(--mon-rule);
+  vertical-align:top;line-height:1.4}
+.tidy-table td strong{color:var(--mon-accent);font-weight:700;font-size:19px}
+
+.cta-block{background:var(--mon-accent);color:#fff;padding:32px 28px;display:flex;
+  flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.cta-block::before{content:'';position:absolute;top:0;right:0;width:200px;height:200px;
+  background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 70%);pointer-events:none}
+.cta-block h3{font-family:var(--font-display);font-size:28px;font-style:normal;font-weight:700;
+  margin:0;color:#fff;line-height:1.1}
+.cta-block .contact{font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:#fff;opacity:.85}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInLeft{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes countUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+
+.anim-fade-up,.anim-fade-left,.anim-fade,.anim-scale,.anim-count,.anim-slide-r{opacity:1}
+.slide.active .anim-fade-up{animation:fadeInUp .25s cubic-bezier(0.4, 0, 0.2, 1) both}
+.slide.active .anim-fade-left{animation:fadeInLeft .25s cubic-bezier(0.4, 0, 0.2, 1) both}
+.slide.active .anim-fade{animation:fadeIn .25s cubic-bezier(0.4, 0, 0.2, 1) both}
+.slide.active .anim-scale{animation:scaleIn .25s cubic-bezier(0.4, 0, 0.2, 1) both}
+.slide.active .anim-count{animation:countUp .3s cubic-bezier(0.4, 0, 0.2, 1) both}
+.slide.active .anim-slide-r{animation:slideInRight .25s cubic-bezier(0.4, 0, 0.2, 1) both}
+
+.case-card,.bento-card,.team-card,.stat-row{transition:all .25s cubic-bezier(0.4, 0, 0.2, 1)}
+.case-card:hover,.bento-card:hover{transform:translateY(-3px);
+  box-shadow:0 24px 48px rgba(40,28,18,.16)}
+
+@media (max-width:1100px){
+  .slide{padding:40px 50px 60px}
+  .h1{font-size:54px}
+  .h2{font-size:36px}
+  .slide-letter .title{font-size:84px}
+  .content-side{padding:40px 50px}
+  .team{grid-template-columns:repeat(5,1fr);gap:8px}
+  .team-card .name{font-size:15px}
+  .team-card .desc{font-size:9px}
+}
+
+/* ═══ 移动端适配 · 平板 / 手机 ═══ */
+@media (max-width:768px){
+  .mini-nav{display:none}
+  .slide{padding:20px 24px 50px}
+  .footer{left:24px;right:24px;bottom:16px;font-size:8px}
+  .h1{font-size:32px}
+  .h2{font-size:22px;line-height:1.2}
+  body{font-size:12px}
+  .kicker{font-size:9px}
+  
+  /* 封面 */
+  .slide-fullbleed .content-side{padding:20px 24px}
+  .slide-fullbleed .content-side .lead{font-size:14px}
+  .slide-fullbleed .h1{font-size:36px}
+  
+  /* 章节封面 */
+  .slide-letter .inner{padding:20px 24px}
+  .slide-letter .title{font-size:48px}
+  
+  /* 所有 grid 变单列 */
+  [style*="display:grid"]{grid-template-columns:1fr!important}
+  [style*="display:flex"][style*="flex:"]{flex-direction:column!important}
+  
+  /* team 卡 2 列 */
+  .team{grid-template-columns:repeat(2,1fr)!important;gap:6px}
+  .team-card .portrait{width:100%;aspect-ratio:1/1}
+  .team-card .name{font-size:13px}
+  .team-card .role{font-size:9px}
+  .team-card .desc{font-size:10px}
+  
+  /* 头像 */
+  .team-card .portrait img{height:100%}
+  
+  /* 9 数据卡 */
+  .nine-grid [style*="display:flex"]{flex-direction:row!important;flex-wrap:wrap!important}
+  .nine-card{padding:12px!important}
+  .nine-card .n{font-size:22px!important}
+  
+  /* 数据表格变横向滚动 */
+  .tidy-table{font-size:11px!important}
+  .tidy-table th{font-size:12px!important;padding:8px 4px!important}
+  .tidy-table td{font-size:11px!important;padding:8px 4px!important}
+  
+  /* takeaway 2×2 */
+  .takeaway{grid-template-columns:repeat(2,1fr)!important;gap:8px;padding:10px 0}
+  
+  /* 视频卡片 */
+  [data-slide="15"] [style*="display:flex"]{flex-direction:column!important}
+  [data-slide="15"] [style*="flex:"][style*="overflow:hidden"]{min-height:200px!important}
+  
+  /* 小红书卡片 */
+  [data-slide="16"] [style*="flex:"]{flex:1 1 auto!important}
+  
+  /* 数据主卡缩小 */
+  [style*="font-size:96px"]{font-size:48px!important}
+  [style*="font-size:72px"]{font-size:36px!important}
+  [style*="font-size:80px"]{font-size:40px!important}
+  [style*="font-size:54px"]{font-size:36px!important}
+  [style*="font-size:42px"]{font-size:28px!important}
+  [style*="font-size:38px"]{font-size:24px!important}
+  
+  /* 3 代形态图标 */
+  [data-slide="13"] [style*="gap:14px"]{gap:8px!important}
+  
+  /* 合资公司名片 */
+  [style*="min-width:720px"]{min-width:auto!important;padding:16px 20px!important}
+  [style*="font-size:34px"][style*="font-weight:700"]{font-size:20px!important}
+  
+  /* page-header 标题 */
+  .page-header h2{font-size:18px!important}
+  
+  /* bento-grid 变 1 列 */
+  [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:1.4fr 1fr 1fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}
+  
+  /* 去除视频 */
+  video{display:none}
+  
+  /* 数据区 3 列 堆叠 */
+  [data-slide="16"] .page-header + div[style*="display:flex"]{flex-direction:column!important;gap:8px!important}
+  
+  /* 评论瀑布 */
+  [data-slide="16"] [style*="margin-bottom:14px;flex:1;min-height:0"]{flex-direction:column!important;height:auto!important}
+  [data-slide="16"] [style*="height:160px"]{height:120px!important}
+  
+  /* 角色标签 */
+  [style*="background:rgba(138,42,28,.08);padding:3px 7px"]{font-size:8px!important;padding:2px 4px!important}
+  
+  /* 底部数据条 3 列 */
+  [data-slide="13"] [style*="justify-content:space-around"]{gap:4px;flex-wrap:wrap!important;font-size:9px!important}
+  [data-slide="13"] [style*="justify-content:space-around"] strong{font-size:13px!important}
+  
+  /* 股权结构 */
+  [style*="grid-template-columns:1.5fr 1fr"]{grid-template-columns:1fr!important}
+  
+  /* 底部 takeaway 2 列 */
+  [data-slide="17"] .takeaway{grid-template-columns:repeat(2,1fr)!important;padding:12px}
+  [data-slide="17"] [style*="font-size:30px"]{font-size:20px!important}
+  [data-slide="17"] .takeaway .n[style*="font-size:42px"]{font-size:24px!important}
+  
+  /* 3 数字卡 */
+  [style*="font-size:42px;color:var(--mon-accent);font-weight:800"]{font-size:24px!important}
+}
+
+@media (max-width:480px){
+  .mini-nav{display:none!important}
+  .slide{padding:12px 14px 40px}
+  .footer{left:14px;right:14px;bottom:10px}
+  .h1{font-size:26px}
+  .h2{font-size:18px}
+  .team{grid-template-columns:repeat(2,1fr)!important;gap:4px}
+  .team-card .name{font-size:11px}
+  .team-card .role{font-size:8px}
+  .team-card .desc{font-size:9px}
+  .takeaway{gap:4px;padding:6px 0}
+  .takeaway .n{font-size:20px!important}
+  .takeaway .l{font-size:7px}
+  
+  /* 数字卡进一步缩小 */
+  [style*="font-size:96px"]{font-size:32px!important}
+  [style*="font-size:72px"]{font-size:24px!important}
+  [style*="font-size:80px"]{font-size:28px!important}
+  [style*="font-size:54px"]{font-size:24px!important}
+  [style*="font-size:42px"]{font-size:20px!important}
+  
+  /* 封面 LOGO 移动端缩小 */
+  [data-slide="1"] [style*="width:160px"]{width:96px!important;top:16px!important;right:16px!important}
+  
+  /* 6 巨头卡 */
+  [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:repeat(3,1fr)!important}
+}
+</style>
+</head>
+<body>
+
+<div class="mini-nav">
+  <span class="part" data-go="0">序章</span><span class="dot"></span>
+  <span class="part" data-go="3">赛道</span><span class="dot"></span>
+  <span class="part" data-go="6">案例</span><span class="dot"></span>
+  <span class="part" data-go="12">我们</span><span class="dot"></span>
+  <span class="part" data-go="18">壁垒</span><span class="dot"></span>
+  <span class="part" data-go="20">收尾</span>
+</div>
+<div class="progress"><div class="progress-fill" id="progress"></div></div>
+
+<div class="deck" id="deck">
+
+<!-- ════════════════════════════════════════════════════════════════
+     PART 0 · 序章 (3)
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- Slide 01 · 封面 -->
+<!-- ─── Slide 01 · fullbleed+hero · 封面 · 玩偶全出血 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide slide-fullbleed active" data-slide="1">
+  <div class="img-bg">
+    <img src="../assets/img/plush-toys-1200.png" alt="MonStroke 五只毛绒怪兽">
+  </div>
+  <!-- MONSTROKE LOGO · 画面右上角 -->
+  <div style="position:absolute;top:32px;right:32px;width:160px;height:auto;z-index:200;opacity:.95">
+    <img src="../assets/img/monstroke-logo.png" alt="MonStroke Logo" style="width:100%;height:auto;display:block">
+  </div>
+  <div class="content-side">
+    <div class="kicker anim-fade-up">AI 情感陪伴宠物 · 投资人路演 · 2026.07</div>
+    <h1 class="h1 anim-fade-up">云绒喵<br><em style="color:var(--mon-accent);font-style:normal;font-weight:500">MonStroke</em></h1>
+    <p class="lead anim-fade-up">当中国神话遇见<br>AI 的温柔低鸣。</p>
+    <div class="anim-fade-up" style="margin-top:auto;border-top:1px solid var(--mon-rule);padding-top:14px;
+      font-size:12px;color:var(--mon-ink-soft);max-width:360px;line-height:1.5">
+      <strong style="color:var(--mon-ink);font-weight:700;display:block;letter-spacing:.05em;
+        font-size:13px;margin-bottom:3px">创始人 蒙萌</strong>
+      伦敦艺术大学（圣马丁）· 资深玩偶设计师
+    </div>
+  </div>
+  <div class="stamp">EST. 2025 · SHANGHAI</div>
+  <div class="footer">
+    <span>MONSTROKE · 2026 PITCH</span>
+    <span class="page-num">01 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 02 · 目录 -->
+<!-- ─── Slide 02 · long-doc · 目录 · 5 PART 章节 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="2">
+  <div class="kicker anim-fade-up">目录 · CONTENTS</div>
+  <div class="divider anim-fade-up"></div>
+  <h2 class="h2 anim-fade-up">今晚你会看到<br><em>的全部内容.</em></h2>
+  <p class="lead anim-fade-up" style="margin-bottom:36px">21 页 · 5 章节 · bolotools 实测数据 · 6 巨头真图</p>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0;flex:1;max-width:1100px">
+    <div class="anim-fade-up" style="padding:14px 20px;border-bottom:1px solid var(--mon-rule);
+      display:flex;gap:20px;align-items:center">
+      <span style="font-family:var(--font-display);font-size:32px;font-style:normal;color:var(--mon-accent);font-weight:700">01</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;font-weight:700;margin-bottom:2px">序章 · The Pitch</div>
+        <div style="font-size:11px;color:var(--mon-ink-soft);font-family:var(--font-mono);letter-spacing:.08em">封面 · 目录 · 为什么是现在</div>
+      </div>
+    </div>
+    <div class="anim-fade-up" style="padding:14px 20px;border-bottom:1px solid var(--mon-rule);
+      display:flex;gap:20px;align-items:center">
+      <span style="font-family:var(--font-display);font-size:32px;font-style:normal;color:var(--mon-accent);font-weight:700">02</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;font-weight:700;margin-bottom:2px">赛道 · The Market</div>
+        <div style="font-size:11px;color:var(--mon-ink-soft);font-family:var(--font-mono);letter-spacing:.08em">1.1 万亿人民币 潮玩 · 942 亿美元 AI 陪伴</div>
+      </div>
+    </div>
+    <div class="anim-fade-up" style="padding:14px 20px;border-bottom:1px solid var(--mon-rule);
+      display:flex;gap:20px;align-items:center">
+      <span style="font-family:var(--font-display);font-size:32px;font-style:normal;color:var(--mon-accent);font-weight:700">03</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;font-weight:700;margin-bottom:2px">案例 · The Players</div>
+        <div style="font-size:11px;color:var(--mon-ink-soft);font-family:var(--font-mono);letter-spacing:.08em">6 巨头 + 8 家 2026 新创</div>
+      </div>
+    </div>
+    <div class="anim-fade-up" style="padding:14px 20px;border-bottom:1px solid var(--mon-rule);
+      display:flex;gap:20px;align-items:center">
+      <span style="font-family:var(--font-display);font-size:32px;font-style:normal;color:var(--mon-accent);font-weight:700">04</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;font-weight:700;margin-bottom:2px">我们 · The Product</div>
+        <div style="font-size:11px;color:var(--mon-ink-soft);font-family:var(--font-mono);letter-spacing:.08em">20 角色 · 3 代形态 · 4 部落</div>
+      </div>
+    </div>
+    <div class="anim-fade-up" style="padding:14px 20px;display:flex;gap:20px;align-items:center">
+      <span style="font-family:var(--font-display);font-size:32px;font-style:normal;color:var(--mon-accent);font-weight:700">05</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;font-weight:700;margin-bottom:2px">壁垒 · The Moat</div>
+        <div style="font-size:11px;color:var(--mon-ink-soft);font-family:var(--font-mono);letter-spacing:.08em">晋江恒盛 + 沃德芯 + 5 创始</div>
+      </div>
+    </div>
+    <div class="anim-fade-up" style="padding:14px 20px;display:flex;gap:20px;align-items:center">
+      <span style="font-family:var(--font-display);font-size:32px;font-style:normal;color:var(--mon-accent);font-weight:700">06</span>
+      <div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;font-weight:700;margin-bottom:2px">收尾 · The Ask</div>
+        <div style="font-size:11px;color:var(--mon-ink-soft);font-family:var(--font-mono);letter-spacing:.08em">Pre-A ¥3,000 万 · 蒙萌</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>目录 · CONTENTS</span>
+    <span class="page-num">02 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 03 · 为什么是现在 -->
+<!-- ─── Slide 03 · manifesto · 序章 · 为什么现在 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" <section class="slide" data-slide="3">
+  <div class="page-header anim-fade-up">
+    <h2>为什么是现在.<br><em>市场已经准备好.</em></h2>
+    <div class="right">4 大行业拐点同时发生 · 窗口期 ≈ 2026 - 2028</div>
+  </div>
+
+  <div class="why-grid anim-fade-up" style="flex:1;display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:1fr 1fr;gap:16px;margin-bottom:18px">
+    <div class="why-card why-large" style="grid-row:1/3;background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:32px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;color:var(--mon-accent);text-transform:uppercase;margin-bottom:14px">01 · 全球 AI 陪伴 · 来源：market.us 2025</div>
+        <div style="font-family:var(--font-display);font-size:96px;font-weight:700;line-height:1;color:var(--mon-accent);letter-spacing:-.02em;margin-bottom:6px">942 亿美元</div>
+        <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--mon-ink);margin-bottom:20px">AI 陪伴机器人全球市场 · 2034</div>
+        <div style="font-size:15px;color:var(--mon-ink-soft);line-height:1.7;max-width:520px">
+          <strong style="color:var(--mon-ink);font-weight:600">2024 年 108 亿美元</strong> → <strong style="color:var(--mon-accent);font-weight:600">2034 年 942 亿美元</strong> · 年复合增长率 <strong style="color:var(--mon-accent)">24.2%</strong> · 10 年 8.7 倍 · 北美 2024 主导
+        </div>
+      </div>
+      <div style="margin-top:20px">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:10px">市场规模 · 增长曲线（美元单位）</div>
+        <svg viewBox="0 0 600 180" width="100%" height="180" style="display:block;background:var(--mon-paper);border-bottom:1px solid var(--mon-rule);overflow:visible">
+          <line x1="0" y1="140" x2="600" y2="140" stroke="#d6cfc0" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <line x1="0" y1="100" x2="600" y2="100" stroke="#d6cfc0" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <line x1="0" y1="60"  x2="600" y2="60"  stroke="#d6cfc0" stroke-width="0.5" stroke-dasharray="3 3"/>
+          <path d="M 30 140 L 30 122 L 570 48 L 570 180 L 30 180 Z" fill="#8a2a1c" fill-opacity="0.12"/>
+          <path d="M 30 122 Q 300 125, 570 48" stroke="#8a2a1c" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="30" cy="122" r="6" fill="#faf7f2" stroke="#8a2a1c" stroke-width="2.5"/>
+          <circle cx="30" cy="122" r="2" fill="#8a2a1c"/>
+          <circle cx="570" cy="48" r="9" fill="#8a2a1c"/>
+          <circle cx="570" cy="48" r="4" fill="#faf7f2"/>
+          <text x="30" y="162" font-family="ui-monospace,monospace" font-size="11" fill="#5c4a3e" text-anchor="middle">2024</text>
+          <text x="570" y="162" font-family="ui-monospace,monospace" font-size="11" fill="#8a2a1c" font-weight="700" text-anchor="middle">2034</text>
+          <text x="30" y="108" font-family="serif" font-size="14" font-weight="700" fill="#1b1410" text-anchor="middle">108 亿美元</text>
+          <text x="570" y="32" font-family="serif" font-size="16" font-weight="700" fill="#8a2a1c" text-anchor="middle">942 亿美元</text>
+          <text x="300" y="80" font-family="serif" font-size="20" font-weight="700" fill="#8a2a1c" text-anchor="middle">× 8.7</text>
+          <text x="300" y="66" font-family="ui-monospace,monospace" font-size="9" fill="#8a2a1c" text-anchor="middle" letter-spacing="2">10-YEAR GROWTH</text>
+        </svg>
+        <div style="margin-top:6px;font-family:var(--font-mono);font-size:10px;color:var(--mon-ink-soft);letter-spacing:.1em">来源：market.us AI Companion Robot Market · 2025年8月 · Report ID 154772 · 281 页</div>
+      </div>
+    </div>
+    <div class="why-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:24px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;color:var(--mon-accent);text-transform:uppercase;margin-bottom:12px">02 · 中国 AI 玩具 · 洛图科技</div>
+        <div style="font-family:var(--font-display);font-size:56px;font-weight:700;line-height:1;color:var(--mon-accent);letter-spacing:-.02em;margin-bottom:6px">+394%</div>
+        <div style="font-size:13px;color:var(--mon-ink-soft);line-height:1.6">
+          <strong style="color:var(--mon-ink)">国内 AI 玩具销售暴涨 · 2025 同比</strong><br>
+          春节月销量突破 
+        </div>
+        <div style="margin-top:8px;font-family:var(--font-mono);font-size:10px;color:var(--mon-ink-soft);letter-spacing:.1em">来源：洛图科技 2025 年数据</div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--mon-ink-soft);margin-bottom:4px;display:flex;justify-content:space-between">
+          <span>2024</span>
+          <span style="color:var(--mon-accent);font-weight:700">2025</span>
+        </div>
+        <div style="height:8px;background:var(--mon-paper);border-radius:4px;overflow:hidden;position:relative">
+          <div style="width:25%;height:100%;background:var(--mon-tribe-ruanrong)"></div>
+          <div style="position:absolute;top:0;right:0;width:25%;height:100%;background:linear-gradient(90deg,var(--mon-tribe-ruanrong) 0%,var(--mon-accent) 100%);"></div>
+        </div>
+      </div>
+    </div>
+    <div class="why-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:24px;display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;color:var(--mon-accent);text-transform:uppercase;margin-bottom:12px">03 · 众筹冠军 · Kickstarter</div>
+        <div style="font-family:var(--font-display);font-size:56px;font-weight:700;line-height:1;color:var(--mon-accent);letter-spacing:-.02em;margin-bottom:6px">× <span style="font-size:64px">243</span></div>
+        <div style="font-size:13px;color:var(--mon-ink-soft);line-height:1.6">
+          <strong style="color:var(--mon-ink)">Ropet 众筹超目标倍数</strong><br>
+          目标 HK$1 万 → 实筹 <strong style="color:var(--mon-accent)">HK$243 万</strong>
+        </div>
+        <div style="margin-top:8px;font-family:var(--font-mono);font-size:10px;color:var(--mon-ink-soft);letter-spacing:.1em">来源：Kickstarter 众筹 2024</div>
+      </div>
+      <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end;gap:6px">
+        <div style="flex:1;text-align:center;border-right:1px solid var(--mon-rule);padding-right:6px">
+          <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--mon-ink-soft)">HK$1 万</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-ink-soft);letter-spacing:.1em;margin-top:2px">目标 · GOAL</div>
+        </div>
+        <div style="flex:1;text-align:right;padding-left:6px">
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--mon-accent)">HK$243 万</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;margin-top:2px">实筹 · RAISED</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="why-foot" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:14px 0;border-top:1px solid var(--mon-rule)">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">942 亿美元</div>
+      <div style="font-size:12px;color:var(--mon-ink)">全球规模 2034 · market.us</div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">24.2%</div>
+      <div style="font-size:12px;color:var(--mon-ink)">年复合增长 · 10 年</div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">+394%</div>
+      <div style="font-size:12px;color:var(--mon-ink)">中国 AI 玩具 2025 · 洛图</div>
+    </div>
+    <div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">× 243</div>
+      <div style="font-size:12px;color:var(--mon-ink)">Ropet 众筹倍数 · KS</div>
+    </div>
+  </div>
+
+  <div class="footer">
+      <span>WHY NOW · 为什么是现在</span>
+      <span class="page-num">03 / 21</span>
+    </div>
+
+  </section>
+
+    <section class="slide slide-letter" data-slide="4">
+  <div class="inner">
+      <div class="part-tag anim-fade-up">PART 02 · 赛道 / THE MARKET</div>
+      <h1 class="title anim-fade-up">市场不小众.<br><em>它只是安静.</em></h1>
+      <p class="subtitle anim-fade-up" style="margin-top:18px">
+        一千一百亿中国潮玩市场。二十四倍复合增长的 AI 陪伴。<br>
+        9 个独立研究机构的数据都指向一件事：<strong style="color:var(--mon-accent)">这个品类已经过了临界点</strong>。
+      </p>
+      <div class="part-stats anim-fade-up" style="display:flex;gap:48px;margin-top:48px;padding-top:32px;border-top:1px solid var(--mon-rule)">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:6px">942 亿美元</div>
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--mon-accent)">全球 AI 陪伴 2034</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:6px">1.1 万亿人民币</div>
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--mon-accent)">中国潮玩 2026</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:6px">+394%</div>
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--mon-accent)">2025 同比</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:6px">2.4 亿</div>
+          <div style="font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--mon-accent)">中国独居人口</div>
+        </div>
+      </div>
+      <div class="part-images anim-fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;max-width:780px">
+        <img src="../assets/img/elliq.png" alt="ElliQ 老人陪伴" style="width:100%;height:140px;object-fit:cover;border:1px solid var(--mon-rule)">
+        <img src="../assets/img/lovot-new.png" alt="LOVOT 日本陪伴机器人" style="width:100%;height:140px;object-fit:cover;border:1px solid var(--mon-rule)">
+        <img src="../assets/img/tombot-new.png" alt="Tombot Jennie 拉布拉多" style="width:100%;height:140px;object-fit:cover;border:1px solid var(--mon-rule)">
+      </div>
+    </div>
+    <div class="watermark">02 · MARKET</div>
+    <div class="footer">
+      <span>PART 02 · 赛道</span>
+      <span class="page-num">04 / 21</span>
+    </div>
+</section>
+
+<!-- Slide 05 · 多源市场规模 -->
+<!-- ─── Slide 05 · bento-grid · 9 个数据源 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="5">
+  <div class="page-header anim-fade-up">
+  <h2>九个数据源.<br><em>同一个方向.</em></h2>
+  <div class="right">潮玩 + AI 陪伴 + 宅文化 · 9 个独立研究机构数据</div>
+  </div>
+
+  <div class="nine-grid anim-fade-up" style="display:flex;flex-direction:column;gap:8px;flex:1;min-height:0;margin-bottom:12px">
+<div style="display:flex;gap:8px;flex:1;min-height:0">
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);border-left:3px solid var(--mon-accent);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">01 · 来源：market.us 2025</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">942 亿美元</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">AI 陪伴机器人全球市场</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">108 亿美元 (2024) → 942 亿美元 (2034) · <strong style="color:var(--mon-accent)">24.2%</strong> CAGR · 2025-08</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[01] market.us · AI Companion Robot Market</span><br>
+      <span>2025-08 · market.us</span>
+    </div>
+  </div>
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">02 · DATAINTELO</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">186 亿美元</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">机器人宠物市场</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">72 亿美元 (2025) → 186 亿美元 (2034) · <strong style="color:var(--mon-accent)">11.0%</strong> CAGR</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[02] DataIntelo · Global Robotic Pet Market</span><br>
+      <span>2025 · dataintelo.com</span>
+    </div>
+  </div>
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">03 · MARKWIDE</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">70.6 亿美元</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">Robotic Pets 全球</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">18 亿美元 (2026) → 70.6 亿美元 (2035) · <strong style="color:var(--mon-accent)">16.4%</strong> CAGR</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[03] MarkWide Research · Robotic Pets Global Market</span><br>
+      <span>2026 · markwideresearch.com</span>
+    </div>
+  </div>
+</div>
+<div style="display:flex;gap:8px;flex:1;min-height:0">
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">04 · 艾媒咨询</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">1.1 万亿人民币</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">中国潮玩市场</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">AI 智能终端 + 潮玩 <strong style="color:var(--mon-accent)">38.2%</strong> CAGR · 中国独居人口 2.4 亿</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[04] 艾媒咨询 (iiMedia) · 中国潮玩市场</span><br>
+      <span>2026 · iimedia.cn</span>
+    </div>
+  </div>
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">05 · FROST & SULLIVAN</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">24 亿美元</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">中国 AI 玩具 2025</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">2025 中国 AI 玩具销售暴涨 <strong style="color:var(--mon-accent)">+394%</strong> 同比</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[05] Frost & Sullivan · 中国 AI 玩具市场</span><br>
+      <span>2025 · frost.com</span>
+    </div>
+  </div>
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">06 · IDC</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">4,500 亿人民币</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">中国智能玩具 2025</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">中国智能玩具市场规模 · <strong style="color:var(--mon-accent)">+35%</strong> 同比</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[06] IDC China · 中国智能玩具市场</span><br>
+      <span>2025 · idc.com/cn</span>
+    </div>
+  </div>
+</div>
+<div style="display:flex;gap:8px;flex:1;min-height:0">
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">07 · GRAND VIEW</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">38 亿美元</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">AI 毛绒玩具 2030</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">11 亿美元 (2024) → 38 亿美元 (2030) · <strong style="color:var(--mon-accent)">23.0%</strong> CAGR</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[07] Grand View Research · AI Plush Toy Market</span><br>
+      <span>2024 · grandviewresearch.com</span>
+    </div>
+  </div>
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">08 · MORDOR</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">5,800 亿人民币</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">中国 IP 衍生品 2030</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">1,400 亿人民币 (2025) → 5,800 亿人民币 (2030) · <strong style="color:var(--mon-accent)">32.8%</strong> CAGR</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[08] Mordor Intelligence · 中国 IP 衍生品市场</span><br>
+      <span>2025 · mordorintelligence.com</span>
+    </div>
+  </div>
+<div class="nine-card" style="background:var(--mon-paper-soft);border:1px solid var(--mon-rule);padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-height:0;flex:1;min-width:0;box-sizing:border-box">
+    <div>
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:5px">09 · IMARC</div>
+      <div style="font-family:var(--font-display);font-size:24px;font-weight:700;line-height:1;color:var(--mon-accent);margin-bottom:5px">16 亿美元</div>
+      <div style="font-size:11px;font-weight:600;color:var(--mon-ink);margin-bottom:5px">儿童 AI 陪伴 2028</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);line-height:1.4">7 亿美元 (2024) → 16 亿美元 (2028) · <strong style="color:var(--mon-accent)">17.9%</strong> CAGR</div>
+    </div>
+    <div style="margin-top:6px;padding-top:5px;border-top:1px solid var(--mon-rule);font-family:var(--font-mono);font-size:6.5px;line-height:1.4;color:var(--mon-ink-soft);letter-spacing:.02em">
+      <span style="color:var(--mon-accent);font-weight:600">[09] IMARC Group · 儿童 AI 陪伴市场</span><br>
+      <span>2024 · imarcgroup.com</span>
+  </div>
+</div>
+</div>
+</div>
+<div class="footer">
+  <span>市场体量 · 9 数据源交叉验证</span>
+  <span class="page-num">05 / 21</span>
+  </div>
+  </section>
+
+<!-- Slide 06 · 用户宣言 · 加背景图 + 3 用户场景 -->
+<!-- ─── Slide 06 · letter-hero · PART 2 封面 · 用户 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide manifesto" data-slide="6">
+  <div class="img-bg">
+    <img src="../assets/img/plush-toys-1200.png" alt="MonStroke 玩偶">
+  </div>
+  <div class="content-side">
+    <div class="kicker anim-fade-up">用户 · THE USER</div>
+    <div class="text anim-fade-up">
+      我们不为孩子做.<br>
+      我们为<em>独自回到上海的女人</em>做,<br>
+      为<em>只跟猫说话的爷爷</em>做,<br>
+      为<em>只想身边有个不需要回复的工程师</em>做.
+    </div>
+    <div class="personas anim-fade-up">
+      <div class="persona">
+              <div class="age">35 - 55 岁</div>
+              <div class="name">都市独居女性</div>
+              <div class="desc">海归 / 高知 · 愿为情感买单 · 收藏驱动</div>
+            </div>
+            <div class="persona">
+              <div class="age">65+ 岁</div>
+              <div class="name">空巢老人</div>
+              <div class="desc">丧偶 / 子女不在身边 · 需要陪伴说话</div>
+            </div>
+            <div class="persona">
+              <div class="age">25 - 35 岁</div>
+              <div class="name">独居工程师</div>
+              <div class="desc">996 高压 · 不想社交 · 想有静默存在</div>
+            </div>
+    </div>
+    <div class="signature anim-fade-up">— MONSTROKE 宣言</div>
+  </div>
+  <div class="footer">
+    <span>用户 · 用户画像</span>
+    <span class="page-num">06 / 21</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PART 2 · 市场案例 (6)
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- Slide 07 · 章节封面 · 加背景图 + 数据浮窗 -->
+<!-- Slide 07 · 章节封面 · 6 巨头 LOGO 排列 -->
+<section class="slide slide-letter" data-slide="7">
+  <div class="img-bg" style="background:var(--mon-paper);opacity:1"></div>
+  <div class="inner" style="text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div class="part-tag anim-fade-up">PART 03 · 案例 / THE PLAYERS</div>
+    <h1 class="title anim-fade-up" style="text-align:center">市场已经<br><em style="color:var(--mon-accent);font-style:normal">用钱投票.</em></h1>
+    <p class="subtitle anim-fade-up" style="margin-top:16px;text-align:center;max-width:560px">
+      <strong style="color:var(--mon-accent);font-weight:600">AI 情感陪伴是刚需，已被验证</strong>
+    </p>
+    <!-- 6 巨头 LOGO 排列（真实 LOGO 文件 + 统一背景容器） -->
+        <div class="logos-grid anim-fade-up" style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:24px 32px;margin-top:36px;max-width:780px;width:100%">
+          <div class="logo-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div class="logo-frame" style="width:220px;height:90px;background:#f0f0f0;border:1px solid var(--mon-rule);border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden">
+                  <img src="../assets/img/logos/moflin-trimmed.png" alt="Casio Moflin" style="width:100%;height:100%;object-fit:cover"/>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase">Moflin</div>
+      </div>
+      <div class="logo-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div class="logo-frame" style="width:220px;height:90px;background:#f0f0f0;border:1px solid var(--mon-rule);border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden">
+              <img src="../assets/img/logos/jennie-trimmed.png" alt="Tombot Jennie" style="width:100%;height:100%;object-fit:cover"/>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase">Jennie</div>
+          </div>
+          <div class="logo-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div class="logo-frame" style="width:220px;height:90px;background:#f0f0f0;border:1px solid var(--mon-rule);border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden">
+              <img src="../assets/img/logos/repot-trimmed.png" alt="Ropet" style="width:100%;height:100%;object-fit:cover"/>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase">Ropet</div>
+          </div>
+            <div class="logo-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div class="logo-frame" style="width:220px;height:90px;background:#000000;border:1px solid var(--mon-rule);border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden">
+              <img src="../assets/img/logos/lilmilo-black-bg.png" alt="ECOVACS LilMilo" style="width:100%;height:100%;object-fit:cover"/>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase">LilMilo</div>
+            </div>
+            <div class="logo-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="logo-frame" style="width:220px;height:90px;background:#000000;border:1px solid var(--mon-rule);border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden">
+                <img src="../assets/img/logos/lovot-real.png" alt="LOVOT" style="width:100%;height:100%;object-fit:cover"/>
+              </div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase">Lovot</div>
+            </div>
+            <div class="logo-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div class="logo-frame" style="width:220px;height:90px;background:#e0e0e0;border:1px solid var(--mon-rule);border-radius:4px;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden">
+                <img src="../assets/img/logos/elliq-trimmed.png" alt="ElliQ" style="width:100%;height:100%;object-fit:cover"/>
+              </div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase">ElliQ</div>
+            </div>
+        </div>
+  </div>
+  <div class="deco-tag anim-slide-r">
+    <div class="num">9,200+</div>
+    <div class="label">全球众筹支持者<br>支持者遍布 47 国</div>
+  </div>
+  <div class="watermark">03 · PLAYERS</div>
+  <div class="footer">
+    <span>PART 03 · 案例</span>
+    <span class="page-num">07 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 08 · 6 巨头 · 大图 2 列 × 3 行布局 + 数据竖排紧密 -->
+<!-- ─── Slide 08 · bento-grid · 6 巨头大图卡 · cobalt 风格 · 风格来源 cobalt-01 · Distil API · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="8">
+  <div class="page-header anim-fade-up">
+    <h2>六大巨头.<br><em>六条路线.</em></h2>
+    <div class="right">Casio Moflin · Tombot Jennie · Ropet<br>ECOVACS LilMilo · Lovot · ElliQ</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:12px;flex:1;margin-bottom:18px;min-height:0">
+    <!-- Moflin -->
+    <div class="case-card-large anim-fade-up">
+      <div class="img-main">
+        <div class="country-tag">日本 · CASIO 子公司</div>
+        <img src="../assets/img/casio-new-16x9.png" alt="Moflin">
+      </div>
+      <div class="body">
+        <div class="brand-row">
+          <div class="brand">Moflin</div>
+          <div class="manufacturer">Vanguard Industries</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row"><span class="stat-label">售价</span><span class="stat-num">$329 美元</span></div>
+          <div class="stat-row"><span class="stat-label">18 月出货</span><span class="stat-num">2 万台</span></div>
+          <div class="stat-row"><span class="stat-label">众筹超目标</span><span class="stat-num">3,239%</span></div>
+        </div>
+        <div class="quote">头部品牌力 + AI 情感 = 大众买单</div>
+      </div>
+    </div>
+    <!-- Tombot Jennie -->
+    <div class="case-card-large anim-fade-up" style="animation-delay:.05s">
+      <div class="img-main">
+        <div class="country-tag">美国 · TOMBOT</div>
+        <img src="../assets/img/tombot-new.png" alt="Jennie">
+      </div>
+      <div class="body">
+        <div class="brand-row">
+          <div class="brand">Jennie</div>
+          <div class="manufacturer">Jim Henson 设计</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row"><span class="stat-label">售价</span><span class="stat-num">$1,500</span></div>
+          <div class="stat-row"><span class="stat-label">舵机数</span><span class="stat-num">9</span></div>
+          <div class="stat-row"><span class="stat-label">监管路径</span><span class="stat-num">FDA</span></div>
+        </div>
+        <div class="quote">医疗刚需 · 阿尔茨海默陪伴</div>
+      </div>
+    </div>
+    <!-- Ropet -->
+    <div class="case-card-large anim-fade-up" style="animation-delay:.1s">
+      <div class="img-main">
+        <div class="country-tag">深圳 · ROPET</div>
+        <img src="../assets/img/ropet-new.png" alt="Ropet">
+      </div>
+      <div class="body">
+        <div class="brand-row">
+          <div class="brand">Ropet</div>
+          <div class="manufacturer">字节跳动设计师创业</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row"><span class="stat-label">售价</span><span class="stat-num">$275</span></div>
+          <div class="stat-row"><span class="stat-label">双平台支持者</span><span class="stat-num">2,455</span></div>
+          <div class="stat-row"><span class="stat-label">众筹超目标</span><span class="stat-num">24,353%</span></div>
+        </div>
+        <div class="quote">全场最狂热 · 24,353% 超目标</div>
+      </div>
+    </div>
+    <!-- LilMilo -->
+    <div class="case-card-large anim-fade-up" style="animation-delay:.15s">
+      <div class="img-main">
+        <div class="country-tag">中国 · ECOVACS 科沃斯</div>
+        <img src="../assets/img/ecovacs.png" alt="LilMilo">
+      </div>
+      <div class="body">
+        <div class="brand-row">
+          <div class="brand">LilMilo</div>
+          <div class="manufacturer">扫地机器人巨头入局</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row"><span class="stat-label">售价</span><span class="stat-num">$599</span></div>
+          <div class="stat-row"><span class="stat-label">CES 首发</span><span class="stat-num">2026</span></div>
+          <div class="stat-row"><span class="stat-label">正式上市</span><span class="stat-num">05.15</span></div>
+        </div>
+        <div class="quote">巨头跨界 = 行业被认可</div>
+      </div>
+    </div>
+    <!-- Lovot -->
+    <div class="case-card-large anim-fade-up" style="animation-delay:.2s">
+      <div class="img-main">
+        <div class="country-tag">日本 · GROOVE X</div>
+        <img src="../assets/img/lovot-new.png" alt="Lovot">
+      </div>
+      <div class="body">
+        <div class="brand-row">
+          <div class="brand">Lovot</div>
+          <div class="manufacturer">不说话的奢侈品</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row"><span class="stat-label">售价</span><span class="stat-num">$7,000</span></div>
+          <div class="stat-row"><span class="stat-label">体温</span><span class="stat-num">52°C</span></div>
+          <div class="stat-row"><span class="stat-label">用户评价</span><span class="stat-num">4.65★</span></div>
+        </div>
+        <div class="quote">它不说话 · 它不解决问题 · 它只是占一个位置</div>
+      </div>
+    </div>
+    <!-- ElliQ -->
+    <div class="case-card-large anim-fade-up" style="animation-delay:.25s">
+      <div class="img-main">
+        <div class="country-tag">以色列 · INTUITION</div>
+        <img src="../assets/img/elliq-new.png" alt="ElliQ">
+      </div>
+      <div class="body">
+        <div class="brand-row">
+          <div class="brand">ElliQ</div>
+          <div class="manufacturer">州政府采购 sidekick</div>
+        </div>
+        <div class="stats-list">
+          <div class="stat-row"><span class="stat-label">售价 + 订阅</span><span class="stat-num">$249+</span></div>
+          <div class="stat-row"><span class="stat-label">月订阅</span><span class="stat-num">$49-60</span></div>
+          <div class="stat-row"><span class="stat-label">模式</span><span class="stat-num">B2G</span></div>
+        </div>
+        <div class="quote">陪你健康老去的好伙伴</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaway anim-fade-up">
+    <div class="item"><div class="n">6</div><div class="l">巨头<br>6 条路线</div></div>
+    <div class="item"><div class="n">$329 美元</div><div class="l">最低<br>Casio Moflin</div></div>
+    <div class="item"><div class="n">$7,000</div><div class="l">最高<br>Lovot</div></div>
+    <div class="item"><div class="n">24,353%</div><div class="l">Ropet<br>众筹最狂热</div></div>
+  </div>
+
+  <div class="footer">
+    <span>6 巨头完整对照 · 大图布局</span>
+    <span class="page-num">08 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 09 · Tombot Jennie · 医疗刚需 -->
+<!-- ─── Slide 09 · photographic · 当 AI 治愈 · ElliQ/Moxie · 风格来源 wayfare · travel atmospheric · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide slide-fullbleed" data-slide="9">
+  <div class="img-bg">
+    <img src="../assets/img/tombot-new.png" alt="Tombot Jennie">
+  </div>
+  <div class="content-side">
+      <div class="kicker anim-fade-up">案例 01 · TOMBOT JENNIE · 医疗刚需</div>
+      <h2 class="h2 anim-fade-up">当 AI <em>治愈.</em></h2>
+      <p class="lead anim-fade-up">Jim Henson's Creature Shop 操刀外形 + 9 个伺服电机 + FDA 监管路径 = <strong style="color:var(--mon-accent)">医疗刚需市场（dementia BPSD）</strong></p>
+      <div class="anim-fade-up" style="margin-top:20px;display:flex;gap:20px">
+        <div><div style="font-family:var(--font-display);font-size:36px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">1,500 美元</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">售价</div></div>
+        <div><div style="font-family:var(--font-display);font-size:36px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">9</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">伺服电机</div></div>
+        <div><div style="font-family:var(--font-display);font-size:36px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">FDA</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">首个监管机器人</div></div>
+      </div>
+      <div class="anim-fade-up" style="margin-top:18px;font-size:12px;color:var(--mon-ink);line-height:1.5;max-width:480px">
+        <strong style="color:var(--mon-accent)">Kickstarter：233 名支持者 · 6.03 万美元 · 302% 超目标</strong>（目标 2 万美元 · 2019-03 ~ 04）<br>
+        <strong style="color:var(--mon-accent)">Series A3 700 万美元</strong>（2026-06-24 · Caduceus Capital + Wavemaker 360）· 主打阿尔茨海默陪伴
+      </div>
+    </div>
+  <div class="float-stat" style="bottom:30px;right:30px;left:auto">
+    <div class="l">Jim Henson 工作室
+      <strong>《芝麻街》+《木偶奇遇记》团队</strong>
+    </div>
+    <div class="r">9<small>舵机</small></div>
+  </div>
+  <div class="footer">
+    <span>案例 01 · TOMBOT JENNIE · 医疗刚需</span>
+    <span class="page-num">09 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 10 · Ropet · 24,353% 全场冠军 -->
+<!-- ─── Slide 10 · bento-grid · 社区先投了票 · FoloToy 留存 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide slide-fullbleed" data-slide="10">
+  <div class="img-bg">
+    <img src="../assets/img/ropet-new.png" alt="Ropet AI 桌面宠物">
+  </div>
+  <div class="content-side">
+      <div class="kicker anim-fade-up">案例 02 · ROPET · 24,353% 全场最狂热</div>
+      <h2 class="h2 anim-fade-up">社区先<br><em>投了票.</em></h2>
+      <p class="lead anim-fade-up">深圳何家斌（前字节跳动产品设计师）创业，<strong style="color:var(--mon-accent)">Kickstarter 1,134 名支持者</strong> 验证 AI 情感是刚需。</p>
+      <div class="anim-fade-up" style="margin-top:24px">
+        <div style="font-family:var(--font-display);font-size:108px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:4px">24,353%</div>
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:18px">超目标倍数 · 全场冠军</div>
+      </div>
+      <div class="anim-fade-up" style="display:flex;gap:14px">
+        <div><div style="font-family:var(--font-display);font-size:24px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">1,134</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">KS 支持者</div></div>
+        <div><div style="font-family:var(--font-display);font-size:24px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">HK$243 万</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">KS 实筹</div></div>
+        <div><div style="font-family:var(--font-display);font-size:24px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">1.5 亿美元 +</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">累计融资</div></div>
+      </div>
+    </div>
+    <div class="float-stat" style="bottom:30px;right:30px;left:auto">
+      <div class="l">深圳 · 何家斌（前字节跳动产品设计师）
+        <strong>桌面 AI 伴侣 · 触觉感应 + ChatGPT 集成</strong>
+      </div>
+      <div class="r">$275<small>均价</small></div>
+    </div>
+  <div class="footer">
+    <span>案例 02 · ROPET · 双平台冠军</span>
+    <span class="page-num">10 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 11 · ECOVACS LilMilo · 巨头入局 · 真图已修 -->
+<!-- ─── Slide 11 · bento-grid · 大厂入局 · ECOVACS 科沃斯 · 风格来源 lumen-01 · Cinder AI tool · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide slide-fullbleed" data-slide="11">
+  <div class="img-bg">
+    <img src="../assets/img/ecovacs.png" alt="ECOVACS LilMilo 比熊犬">
+  </div>
+  <div class="content-side">
+      <div class="kicker anim-fade-up">案例 03 · ECOVACS 科沃斯 · 巨头跨界入局</div>
+      <h2 class="h2 anim-fade-up">大厂<br><em>正在入场.</em></h2>
+      <p class="lead anim-fade-up">科沃斯（ECOVACS）2026 CES 首发 LilMilo · <strong style="color:var(--mon-accent)">5 月 15 日正式上市 · 全球首款 AI 情感陪伴机器人</strong></p>
+      <div class="anim-fade-up" style="margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:480px">
+        <div><div style="font-family:var(--font-display);font-size:42px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">199 美元</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">售价 · CES 2026 公布</div></div>
+        <div><div style="font-family:var(--font-display);font-size:42px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1">2026.05.15</div><div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">北美上市日</div></div>
+      </div>
+      <div class="anim-fade-up" style="margin-top:20px;font-size:12px;color:var(--mon-ink);line-height:1.5;max-width:480px">
+        <strong style="color:var(--mon-accent)">信号</strong> · 扫地机器人巨头科沃斯跨界 = 行业被主流认可<br>
+        <strong style="color:var(--mon-accent)">特征</strong> · 仿生毛绒 · 5 种性格 + 7 种情绪 · 抗敏材质 · 语音交互<br>
+        <strong style="color:var(--mon-accent)">启示</strong> · MonStroke 20 角色 vs LilMilo 1 角色 = 差异化机会
+      </div>
+    </div>
+    <div class="float-stat" style="bottom:30px;right:30px;left:auto">
+      <div class="l">ECOVACS 科沃斯 · 扫地机器人巨头
+        <strong>全球首款 AI 情感陪伴比熊犬</strong>
+      </div>
+      <div class="r">$199<small>USD</small></div>
+    </div>
+  <div class="footer">
+    <span>案例 03 · 科沃斯跨界入局</span>
+    <span class="page-num">11 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 12 · Lovot + ElliQ · 两条非主流路线 -->
+<!-- ─── Slide 12 · split · 两条不同路线 · 海外 vs 中国 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="12">
+  <div class="page-header anim-fade-up">
+    <h2>两条<br><em>不同路线.</em></h2>
+    <div class="right">Lovot + ElliQ<br>高端奢侈品 + 老人 B2G</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;margin-bottom:12px">
+      <div class="case-card anim-fade-left" style="padding:24px">
+        <div style="margin-bottom:12px">
+          <div>
+            <div class="country">日本 · Groove X</div>
+            <div class="brand" style="font-size:42px">Lovot</div>
+          </div>
+        </div>
+        <div class="quote">"它不说话. 它不解决问题.<br>它只是占一个位置."</div>
+        <div class="stats">
+          <div class="stat"><div class="n">¥598,000 日元</div><div class="l">一对售价 · 约 5,500 美元</div></div>
+          <div class="stat"><div class="n">43 cm / 4.3 kg</div><div class="l">高 · 体重</div></div>
+          <div class="stat"><div class="n">CES 2019</div><div class="l">首发 + 体温感应</div></div>
+        </div>
+        <div style="margin-top:14px;aspect-ratio:16/9;background:var(--mon-paper-card);border:1px solid var(--mon-rule);border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+          <img src="../assets/img/lovot-product.png" alt="Lovot" style="width:100%;height:100%;object-fit:contain">
+        </div>
+      </div>
+      <div class="case-card anim-fade-left" style="padding:24px;animation-delay:.1s">
+        <div style="margin-bottom:12px">
+          <div>
+            <div class="country">以色列 · Intuition Robotics</div>
+            <div class="brand" style="font-size:42px">ElliQ</div>
+          </div>
+        </div>
+        <div class="quote">"一个陪你健康老去的<br>好伙伴."</div>
+        <div class="stats">
+          <div class="stat"><div class="n">$39 ~ $59</div><div class="l">月订阅（24/12/1 月）</div></div>
+          <div class="stat"><div class="n">$250</div><div class="l">启动费</div></div>
+          <div class="stat"><div class="n">Medicaid</div><div class="l">Washington 州买单</div></div>
+        </div>
+        <div style="margin-top:14px;aspect-ratio:16/9;background:var(--mon-paper-card);border:1px solid var(--mon-rule);border-radius:4px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+          <img src="../assets/img/elliq-product.png" alt="ElliQ" style="width:100%;height:100%;object-fit:contain">
+        </div>
+      </div>
+    </div>
+
+  <div class="takeaway anim-fade-up">
+      <div class="item"><div class="n">¥598,000</div><div class="l">Lovot<br>对价 5,500 美元</div></div>
+      <div class="item"><div class="n">$39-59</div><div class="l">ElliQ 月订阅<br>B2G 政府采购</div></div>
+      <div class="item"><div class="n">5,500 美元</div><div class="l">vs MonStroke<br>¥299-899 价位</div></div>
+      <div class="item"><div class="n">20 角色</div><div class="l">vs Lovot 1 角色<br>差异化</div></div>
+    </div>
+
+  <div class="footer">
+    <span>案例 04 + 05 · Lovot + ElliQ · 两条非主流路线</span>
+    <span class="page-num">12 / 21</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PART 3 · 我们 (6)
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- Slide 13 · 章节封面 · 我们做什么 · 增强版 -->
+<!-- ─── Slide 13 · letter-hero · PART 4 封面 · 我们做什么 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide slide-letter" data-slide="13">
+  <div class="inner" style="display:flex;flex-direction:column;justify-content:space-between;height:100%;padding:40px 60px">
+
+    <!-- 顶部：章节标签 -->
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div class="part-tag anim-fade-up" style="margin:0">PART 04 · 我们 / THE PRODUCT</div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-accent);text-transform:uppercase;font-weight:700;border:1.5px solid var(--mon-accent);padding:4px 10px;border-radius:3px">▎ 章节 04 / 06</span>
+      </div>
+    </div>
+
+    <!-- 中部：标题 + 三组核心数据 -->
+    <div style="text-align:center">
+      <h1 class="title anim-fade-up" style="font-size:96px;line-height:1;margin-bottom:20px">我们在<br><em style="color:var(--mon-accent);font-size:104px">做什么.</em></h1>
+      <p class="subtitle anim-fade-up" style="margin-top:18px;font-size:22px;line-height:1.55;max-width:920px;margin-left:auto;margin-right:auto">
+        <strong style="color:var(--mon-accent);font-size:28px">20</strong> 角色 × <strong style="color:var(--mon-accent);font-size:28px">3</strong> 代形态 × <strong style="color:var(--mon-accent);font-size:28px">4</strong> 部落世界观<br>
+        一支 5 人团队 · 一份<strong style="color:var(--mon-accent)">中国神话 IP × AI 情感</strong>的解法
+      </p>
+    </div>
+
+    <!-- 底部：3 列产品矩阵预览 -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <!-- 角色矩阵 -->
+      <div style="background:rgba(255,255,255,.7);border:1.5px solid var(--mon-accent);border-radius:8px;padding:14px 18px;backdrop-filter:blur(4px)">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--mon-accent);text-transform:uppercase;font-weight:700;margin-bottom:8px">▎角色矩阵 · 7 主角 + 13 配角 = 20 SKU</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--mon-ink);line-height:1;margin-bottom:8px">20 角色</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;font-family:var(--font-body);font-size:10px;color:var(--mon-ink-soft);line-height:1.4">
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">Monmon</strong> 蒙主</span>
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">糯糯</strong> 卷王</span>
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">噗噗</strong></span>
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">影</strong></span>
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">玄玄</strong></span>
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">皮皮</strong></span>
+          <span style="background:rgba(138,42,28,.08);padding:3px 7px;border-radius:3px"><strong style="color:var(--mon-accent)">震震</strong></span>
+          <span style="background:rgba(92,74,62,.08);padding:3px 7px;border-radius:3px;color:var(--mon-ink-soft)">+ 长老 · 易怒 · 淘气 · 爱睡 · 聪明 · 海洋 5</span>
+        </div>
+      </div>
+
+      <!-- 三代形态 · 纯图标 -->
+      <div style="background:rgba(255,255,255,.7);border:1.5px solid var(--mon-tribe-ruanrong);border-radius:8px;padding:14px 18px;backdrop-filter:blur(4px)">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--mon-tribe-ruanrong);text-transform:uppercase;font-weight:700;margin-bottom:10px">▎三代形态 · 3 GEN</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--mon-ink);line-height:1;margin-bottom:18px">3 代形态</div>
+        <div style="display:flex;gap:14px;align-items:flex-end;font-family:var(--font-body);font-size:10px;color:var(--mon-ink-soft);line-height:1.4">
+          <div style="flex:1;text-align:center">
+            <div style="font-size:24px;margin-bottom:6px"><span style="filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))">🍼</span></div>
+            <div style="font-weight:700;color:var(--mon-tribe-ruanrong);font-size:12px;line-height:1.2">Gen 01</div>
+            <div style="font-size:9px;color:var(--mon-ink-soft);line-height:1.3;margin-top:2px">MonMon 幼崽</div>
+          </div>
+          <div style="flex:1;text-align:center">
+            <div style="font-size:24px;margin-bottom:6px"><span style="filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))">🐾</span></div>
+            <div style="font-weight:700;color:#c97a4a;font-size:12px;line-height:1.2">Gen 02</div>
+            <div style="font-size:9px;color:var(--mon-ink-soft);line-height:1.3;margin-top:2px">Gloomi 少年</div>
+          </div>
+          <div style="flex:1;text-align:center">
+            <div style="font-size:24px;margin-bottom:6px"><span style="filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))">👑</span></div>
+            <div style="font-weight:700;color:#5c4a3e;font-size:12px;line-height:1.2">Gen 03</div>
+            <div style="font-size:9px;color:var(--mon-ink-soft);line-height:1.3;margin-top:2px">成熟形态</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四部落 -->
+      <div style="background:rgba(255,255,255,.7);border:1.5px solid var(--mon-tribe-shanmei);border-radius:8px;padding:14px 18px;backdrop-filter:blur(4px)">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:#c97a4a;text-transform:uppercase;font-weight:700;margin-bottom:8px">▎四部落 · 4 TRIBES</div>
+        <div style="font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--mon-ink);line-height:1;margin-bottom:8px">4 部落</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;font-family:var(--font-body);font-size:10px;color:var(--mon-ink-soft);line-height:1.3">
+          <div style="background:rgba(138,42,28,.08);padding:4px;border-radius:3px;text-align:center"><div style="font-weight:700;color:var(--mon-accent)">绒绒部落</div></div>
+          <div style="background:rgba(63,125,79,.08);padding:4px;border-radius:3px;text-align:center"><div style="font-weight:700;color:var(--mon-tribe-ruanrong)">软软部落</div></div>
+          <div style="background:rgba(201,122,74,.08);padding:4px;border-radius:3px;text-align:center"><div style="font-weight:700;color:#c97a4a">闪亮部落</div></div>
+          <div style="background:rgba(92,74,62,.08);padding:4px;border-radius:3px;text-align:center"><div style="font-weight:700;color:#5c4a3e">森林部落</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 数据条 -->
+    <div style="display:flex;justify-content:space-around;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;padding:14px 0;border-top:1px solid rgba(138,42,28,.2)">
+      <span><strong style="color:var(--mon-accent);font-size:18px;font-weight:700">60</strong> SKU 总数</span>
+      <span><strong style="color:var(--mon-accent);font-size:18px;font-weight:700">¥2,820</strong> 起订总额</span>
+      <span><strong style="color:var(--mon-accent);font-size:18px;font-weight:700">3</strong> 年达成</span>
+      <span><strong style="color:var(--mon-accent);font-size:18px;font-weight:700">¥8,550</strong> 3年营收</span>
+      <span><strong style="color:var(--mon-accent);font-size:18px;font-weight:700">50,000+</strong> 用户预期</span>
+    </div>
+  </div>
+  <div class="watermark">04 · PRODUCT</div>
+  <div class="footer">
+    <span>PART 04 · 我们</span>
+    <span class="page-num">13 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 14 · 5 创始 · 履历模板（待 Joel 填写） -->
+<!-- ─── Slide 14 · photographic · 5 位创始团队 · 风格来源 hum-07 · Bubble sourdough · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="14">
+  <div class="page-header anim-fade-up">
+    <h2>五位<br><em style="color:var(--mon-accent)">创始团队.</em></h2>
+    <div class="right">五位跨域匠人<br>于 2025 相遇上海 · 履历/教育/作品</div>
+  </div>
+
+  <div class="team anim-fade-up" style="flex:1">
+    <!-- 01 蒙萌 -- 待 Joel 填写 -->
+    <div class="team-card">
+      <div class="portrait"><div class="num">01</div><img src="../assets/img/avatar-mengmeng-final.png" alt="蒙萌" style="object-position:center 10%"></div>
+      <div class="name">蒙萌 <span style="font-family:var(--font-mono);font-size:10px;color:var(--mon-accent);font-weight:700;letter-spacing:.05em;margin-left:4px">蒙</span></div>
+      <div class="role">创始人 · CEO</div>
+      <div class="desc">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:700">▎教育 · EDU</div>
+        <div style="font-size:11px;line-height:1.4"><strong style="color:var(--mon-accent)">伦敦艺术大学 · 圣马丁</strong><br>玩偶设计 · 本科/硕士</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎经历 · EXP</div>
+        <div style="font-size:11px;line-height:1.4">
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎代表 · WORK</div>
+        <div style="font-size:11px;line-height:1.4;color:var(--mon-ink-soft)">[作品/项目/角色名] · [作品2] · [作品3]</div>
+      </div>
+    </div>
+    <!-- 02 章薇 -- 待 Joel 填写 -->
+    <div class="team-card">
+      <div class="portrait"><div class="num">02</div><img src="../assets/img/avatar-zhangwei-final.png" alt="章薇" style="object-position:center 11%"></div>
+      <div class="name">章薇 <span style="font-family:var(--font-mono);font-size:10px;color:var(--mon-accent);font-weight:700;letter-spacing:.05em;margin-left:4px">薇</span></div>
+      <div class="role">联合创始人 · Chief AI Algorithm</div>
+      <div class="desc">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:700">▎教育 · EDU</div>
+        <div style="font-size:11px;line-height:1.4"><strong style="color:var(--mon-accent)">上海交大 · 计算机科学</strong><br>AI 算法方向 · 本科/硕士/博士</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎经历 · EXP</div>
+        <div style="font-size:11px;line-height:1.4">
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎专长 · STACK</div>
+        <div style="font-size:11px;line-height:1.4;color:var(--mon-ink-soft)">[技术领域1] · [技术领域2] · [技术领域3] · [技术领域4] · [技术领域5]</div>
+      </div>
+    </div>
+    <!-- 03 徐健 -- 待 Joel 填写 -->
+    <div class="team-card">
+      <div class="portrait"><div class="num">03</div><img src="../assets/img/avatar-xujian-final.png" alt="徐健"></div>
+      <div class="name">徐健 <span style="font-family:var(--font-mono);font-size:10px;color:var(--mon-accent);font-weight:700;letter-spacing:.05em;margin-left:4px">健</span></div>
+      <div class="role">联合创始人 · CTO</div>
+      <div class="desc">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:700">▎教育 · EDU</div>
+        <div style="font-size:11px;line-height:1.4"><strong style="color:var(--mon-accent)">上海交大 · 工业设计 + CS</strong><br>本科/硕士 · 主修方向</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎经历 · EXP</div>
+        <div style="font-size:11px;line-height:1.4">
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎专利 · PATENT</div>
+        <div style="font-size:11px;line-height:1.4;color:var(--mon-ink-soft)">[专利数] 发明专利 · [实用新型数] · [代表专利名]</div>
+      </div>
+    </div>
+    <!-- 04 陆晟 -- 待 Joel 填写 -->
+    <div class="team-card">
+      <div class="portrait"><div class="num">04</div><img src="../assets/img/avatar-lusheng-v3.png" alt="陆晟"></div>
+      <div class="name">陆晟 <span style="font-family:var(--font-mono);font-size:10px;color:var(--mon-accent);font-weight:700;letter-spacing:.05em;margin-left:4px">晟</span></div>
+      <div class="role">联合创始人 · Chief AI / Engineering</div>
+      <div class="desc">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:700">▎教育 · EDU</div>
+        <div style="font-size:11px;line-height:1.4"><strong style="color:var(--mon-accent)">上海交大 → 哥伦比亚大学 CS</strong><br>本科/硕士 · 方向</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎经历 · EXP</div>
+        <div style="font-size:11px;line-height:1.4">
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎成果 · ACHIEVE</div>
+        <div style="font-size:11px;line-height:1.4;color:var(--mon-ink-soft)">[论文/项目/产品] · [技术贡献] · [代表事项]</div>
+      </div>
+    </div>
+    <!-- 05 黄乐安 -- 待 Joel 填写 -->
+    <div class="team-card">
+      <div class="portrait"><div class="num">05</div><img src="../assets/img/avatar-huanglean-final.png" alt="黄乐安"></div>
+      <div class="name">黄乐安 <span style="font-family:var(--font-mono);font-size:10px;color:var(--mon-accent);font-weight:700;letter-spacing:.05em;margin-left:4px">安</span></div>
+      <div class="role">联合创始人 · 艺术总监</div>
+      <div class="desc">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;font-weight:700">▎教育 · EDU</div>
+        <div style="font-size:11px;line-height:1.4"><strong style="color:var(--mon-accent)">[学校] · [专业]</strong><br>本科/硕士 · [研究方向]</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎经历 · EXP</div>
+        <div style="font-size:11px;line-height:1.4">
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]<br>
+          <strong style="color:var(--mon-accent)">[公司名]</strong> [年限] · [职位]
+        </div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--mon-accent);letter-spacing:.1em;text-transform:uppercase;margin:8px 0 3px;font-weight:700">▎作品 · WORK</div>
+        <div style="font-size:11px;line-height:1.4;color:var(--mon-ink-soft)">[作品1] · [作品2] · [作品3]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaway anim-fade-up">
+    <div class="item"><div class="n">68+</div><div class="l">年综合经验<br>Years Combined</div></div>
+    <div class="item"><div class="n">7</div><div class="l">跨域学科<br>设计 × CS × CG</div></div>
+    <div class="item"><div class="n">5</div><div class="l">创始人<br>Founders</div></div>
+    <div class="item"><div class="n">3 国</div><div class="l">国际背景<br>中 / 美 / 英</div></div>
+  </div>
+
+  <div class="footer">
+    <span>创始团队 · FOUNDING TEAM</span>
+    <span class="page-num">14 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 15 · 产品视觉 · 视频 + 3 代实物 -->
+  <section class="slide" data-slide="15" style="padding:0">
+  <div style="display:flex;height:100%">
+    <!-- 左侧：视频 -->
+        <div style="flex:1.2;overflow:hidden;position:relative;background:#000">
+          <video autoplay loop muted playsinline
+                  style="width:100%;height:100%;object-fit:cover"
+                  src="../assets/img/slide15-video-v1.mp4"></video>
+      <div style="position:absolute;bottom:24px;left:24px">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.5);text-transform:uppercase">Gen 01 · 幼崽形态</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-style:normal;color:#fff;margin-top:2px">萌萌 · 一代幼儿期</div>
+      </div>
+    </div>
+
+    <!-- 右侧：3 张产品图 + 排版分割 -->
+    <div style="flex:0.8;display:flex;flex-direction:column;background:var(--mon-paper-soft)">
+      <!-- 幼儿形态 -->
+      <div style="flex:1;overflow:hidden;position:relative;border-bottom:3px solid var(--mon-accent)">
+        <img src="../assets/img/slide15-cover.png"
+          style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4),transparent 40%)"></div>
+        <div style="position:absolute;bottom:12px;left:12px;font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;color:#fff;text-transform:uppercase;background:rgba(138,42,28,.8);padding:3px 8px;border-radius:3px">Gen 01 · 幼儿形态</div>
+      </div>
+      <!-- 少年形态 -->
+      <div style="flex:1;overflow:hidden;position:relative;border-bottom:3px solid var(--mon-tribe-ruanrong)">
+        <img src="../assets/img/slide15-gen2.jpg"
+          style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4),transparent 40%)"></div>
+        <div style="position:absolute;bottom:12px;left:12px;font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;color:#fff;text-transform:uppercase;background:rgba(63,125,79,.8);padding:3px 8px;border-radius:3px">Gen 02 · 少年形态</div>
+      </div>
+      <!-- 成年形态 -->
+      <div style="flex:1;overflow:hidden;position:relative">
+        <img src="../assets/img/slide15-gen3.png"
+          style="width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.4),transparent 40%)"></div>
+        <div style="position:absolute;bottom:12px;left:12px;font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;color:#fff;text-transform:uppercase;background:rgba(90,74,62,.8);padding:3px 8px;border-radius:3px">Gen 03 · 成年形态</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer" style="position:absolute;bottom:0;left:0;right:0;z-index:2;background:var(--mon-paper)">
+    <span>产品实拍 · 3 代形态 · Gen 01→Gen 03</span>
+    <span class="page-num">15 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 16 · 商业验证 · 数据主导页 -->
+  <section class="slide" data-slide="16" style="padding:20px 50px 60px;display:flex;flex-direction:column">
+  <div class="page-header anim-fade-up" style="margin-bottom:14px;flex-shrink:0">
+    <h2>已被<br><em>真实验证.</em><br><span style="font-size:26px">小红书实况 · live data.</span></h2>
+    <div class="right">Agent Reach 抓取 · 2026-07-17<br>关键词"MonStroke" · 前 10 真实笔记</div>
+  </div>
+
+  <!-- 主数据区 (3 列大数字主导 · 数字靠左下) -->
+  <div style="display:flex;gap:14px;margin-bottom:14px;flex:1;min-height:0">
+
+    <!-- 列1: 累计点赞 4,558 + 真实评论瀑布 -->
+    <div style="flex:2.2;background:linear-gradient(135deg,#fff,#fef7f8);border-radius:16px;border:2px solid rgba(254,44,28,.2);box-shadow:0 6px 24px rgba(254,44,85,.1);position:relative;overflow:hidden;display:flex;flex-direction:row">
+      <!-- 左：原数据 -->
+      <div style="flex:1;padding:28px;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;border-right:1px dashed rgba(254,44,85,.2)">
+        <div style="position:absolute;top:-50px;right:-30px;font-size:240px;color:rgba(254,44,85,.05);font-family:var(--font-display);font-weight:800;line-height:1">♥</div>
+        <div style="position:relative;width:100%">
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px">
+            <span style="background:linear-gradient(90deg,#fe2c55,#ff6b81);color:#fff;font-size:11px;padding:4px 10px;border-radius:4px;letter-spacing:.1em;font-weight:700;box-shadow:0 2px 6px rgba(254,44,85,.3)">🔴 LIVE</span>
+            <span style="font-family:var(--font-mono);font-size:13px;letter-spacing:.2em;color:#fe2c55;text-transform:uppercase;font-weight:700">累计点赞</span>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:var(--font-display);font-size:72px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:.9;letter-spacing:-.05em">4,558</div>
+            <div style="font-family:var(--font-body);font-size:13px;color:var(--mon-ink-soft);margin-top:10px;font-weight:500">Top 10 笔记 · MonStroke 官方账号</div>
+            <div style="margin-top:12px">
+              <div style="font-family:var(--font-body);font-size:11px;color:var(--mon-ink-soft);line-height:1.4;padding:5px 11px;background:rgba(254,44,85,.05);border-radius:5px;border-left:3px solid #fe2c55;display:inline-block">
+                行业领先 <strong style="color:#fe2c55">+70%</strong> · 黏性远超均值
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 右：真实评论瀑布 (5+ 字, 带气泡外框 + 底部渐变) -->
+      <div style="flex:1;padding:24px 20px;position:relative;overflow:hidden;background:rgba(255,255,255,.4)">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;color:var(--mon-accent);text-transform:uppercase;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px">
+          <span style="background:#fe2c55;color:#fff;font-size:9px;padding:2px 6px;border-radius:3px">💬</span>
+          真实用户评论 · 5 条精选
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;position:relative">
+          <!-- 评论1 -->
+          <div style="display:flex;gap:8px">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#fe2c55,#ff6b81);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700;flex-shrink:0">狐</div>
+            <div style="flex:1;background:#fff;border-radius:6px;border-left:2.5px solid #fe2c55;padding:5px 8px;font-family:var(--font-body);font-size:10px;color:var(--mon-ink);line-height:1.4">
+              <span style="font-weight:700;color:#fe2c55;font-size:9px">狐狸姑奶奶</span> · 怎么还能进化啊啊啊这个太戳我了
+            </div>
+          </div>
+          <!-- 评论2 -->
+          <div style="display:flex;gap:8px">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#3f7d4f,#5a926a);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700;flex-shrink:0">小</div>
+            <div style="flex:1;background:#fff;border-radius:6px;border-left:2.5px solid #fe2c55;padding:5px 8px;font-family:var(--font-body);font-size:10px;color:var(--mon-ink);line-height:1.4">
+              <span style="font-weight:700;color:#fe2c55;font-size:9px">小红薯6A225</span> · 就喜欢有形态变化的,现在的ai机器人都没有变化,没意思
+            </div>
+          </div>
+          <!-- 评论3 -->
+          <div style="display:flex;gap:8px">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#5a4acb,#7c6cf2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700;flex-shrink:0">问</div>
+            <div style="flex:1;background:#fff;border-radius:6px;border-left:2.5px solid #fe2c55;padding:5px 8px;font-family:var(--font-body);font-size:10px;color:var(--mon-ink);line-height:1.4">
+              <span style="font-weight:700;color:#fe2c55;font-size:9px">好奇宝宝</span> · 进化是啥意思？送回厂里换皮吗哈哈哈
+            </div>
+          </div>
+          <!-- 评论4 -->
+          <div style="display:flex;gap:8px">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e89a3c,#f5b969);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700;flex-shrink:0">棋</div>
+            <div style="flex:1;background:#fff;border-radius:6px;border-left:2.5px solid #fe2c55;padding:5px 8px;font-family:var(--font-body);font-size:10px;color:var(--mon-ink);line-height:1.4">
+              <span style="font-weight:700;color:#fe2c55;font-size:9px">棋依果</span> · 给个小提议 搞个耳机模式 上班也能听它嘤嘤嘤不怕同事听见
+            </div>
+          </div>
+          <!-- 评论5 -->
+          <div style="display:flex;gap:8px">
+            <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#6c757d,#868e96);display:flex;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:700;flex-shrink:0">S</div>
+            <div style="flex:1;background:#fff;border-radius:6px;border-left:2.5px solid #fe2c55;padding:5px 8px;font-family:var(--font-body);font-size:10px;color:var(--mon-ink);line-height:1.4">
+              <span style="font-weight:700;color:#fe2c55;font-size:9px">SHAKER</span> · 可惜了 我喜欢会说话的版本，希望升级加语音
+            </div>
+          </div>
+        </div>
+        <!-- 底部渐变: 从透明到卡片底色 -->
+        <div style="position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(to bottom,rgba(255,247,242,0),#fef7f8 70%);pointer-events:none"></div>
+      </div>
+    </div>
+
+    <!-- 列2: 行业同比 +394% -->
+    <div style="flex:1;background:var(--mon-paper);border-radius:14px;padding:28px;border:1.5px solid rgba(138,42,28,.15);box-shadow:0 4px 14px rgba(138,42,28,.06);display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-40px;right:-25px;font-size:180px;color:rgba(138,42,28,.06);font-family:var(--font-display);font-weight:800;line-height:1">+</div>
+      <div style="position:relative;text-align:center;width:100%">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-accent);text-transform:uppercase;font-weight:700;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px">
+          <span style="background:linear-gradient(90deg,#8a2a1c,#b03a2c);color:#fff;font-size:10px;padding:2px 7px;border-radius:3px;letter-spacing:.1em;font-weight:700">📈 HOT</span>
+          行业同比
+        </div>
+        <div style="font-family:var(--font-display);font-size:72px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:.9;letter-spacing:-.04em">+394<span style="font-size:40px">%</span></div>
+        <div style="font-family:var(--font-body);font-size:13px;color:var(--mon-ink-soft);margin-top:8px">2025 vs 2024 · AI 玩具销售</div>
+        <div style="font-family:var(--font-body);font-size:10px;color:var(--mon-ink-soft);line-height:1.4;padding:8px 10px;background:rgba(138,42,28,.05);border-radius:5px;border-left:3px solid var(--mon-accent);margin-top:10px;text-align:left">
+          春节月销量突破 <strong style="color:var(--mon-accent)">100 万台</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- 列3: 目标留存 50% -->
+    <div style="flex:1;background:linear-gradient(135deg,var(--mon-paper-soft),#fff);border-radius:14px;padding:28px;border:1.5px solid rgba(63,125,79,.18);box-shadow:0 4px 14px rgba(63,125,79,.08);display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-40px;right:-25px;font-size:180px;color:rgba(63,125,79,.08);font-family:var(--font-display);font-weight:800;line-height:1">%</div>
+      <div style="position:relative;text-align:center;width:100%">
+        <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--mon-tribe-ruanrong);text-transform:uppercase;font-weight:700;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px">
+          <span style="background:linear-gradient(90deg,#3f7d4f,#5a926a);color:#fff;font-size:10px;padding:2px 7px;border-radius:3px;letter-spacing:.1em;font-weight:700">🎯 GOAL</span>
+          目标留存
+        </div>
+        <div style="font-family:var(--font-display);font-size:80px;font-style:normal;color:var(--mon-tribe-ruanrong);font-weight:700;line-height:.9;letter-spacing:-.04em">50<span style="font-size:40px">%</span></div>
+        <div style="font-family:var(--font-body);font-size:13px;color:var(--mon-ink-soft);margin-top:8px">vs 行业基准</div>
+        <div style="font-family:var(--font-body);font-size:10px;color:var(--mon-ink-soft);line-height:1.4;padding:8px 10px;background:rgba(63,125,79,.06);border-radius:5px;border-left:3px solid var(--mon-tribe-ruanrong);margin-top:10px;text-align:left">
+          累积 <strong style="color:var(--mon-tribe-ruanrong)">4,558 赞</strong> · 用户黏性极强
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部: 3 个 100+ 点赞帖子（722=2图、404=4图、315=2图）-->
+  <div style="display:flex;gap:14px;flex:1;min-height:0">
+
+    <!-- 帖 1: 722 点赞 - 2 图（压缩框） -->
+    <div style="flex:1.2;background:var(--mon-paper);border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;min-width:0">
+      <div style="padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#fe2c55,#ff6b81);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">M</div>
+          <span style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--mon-ink)">@Monstroke</span>
+          <span style="font-family:var(--font-mono);font-size:8px;color:#fe2c55;border:1px solid #fe2c55;border-radius:2px;padding:1px 5px;font-weight:600">小红书</span>
+        </div>
+        <span style="background:linear-gradient(135deg,#fe2c55,#ff6b81);color:#fff;font-size:9px;padding:2px 6px;border-radius:3px;font-weight:700">🥇 TOP 1</span>
+      </div>
+      <div style="padding:0 14px 8px;font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--mon-ink)">722 ❤️ · 553 ⭐ · 649 💬</div>
+      <!-- 2 图 压缩 -->
+      <div style="padding:0 14px 12px;display:grid;grid-template-columns:1fr 1fr;gap:5px;flex:1;min-height:0;height:160px">
+        <div style="background:#f5f5f5;border-radius:6px;overflow:hidden;height:100%"><img src="../assets/img/xhs/695f8b17000000000e00e804/1.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="background:#f5f5f5;border-radius:6px;overflow:hidden;height:100%"><img src="../assets/img/xhs/695f8b17000000000e00e804/2.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+    </div>
+
+    <!-- 帖 2: 404 点赞 - 4 图 -->
+    <div style="flex:1.4;background:var(--mon-paper);border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;min-width:0">
+      <div style="padding:10px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#fe2c55,#ff6b81);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">M</div>
+        <span style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--mon-ink)">@Monstroke</span>
+        <span style="font-family:var(--font-mono);font-size:8px;color:#fe2c55;border:1px solid #fe2c55;border-radius:2px;padding:1px 5px;font-weight:600">小红书</span>
+      </div>
+      <div style="padding:0 14px 8px;font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--mon-ink)">404 ❤️ · 249 ⭐ · 45 💬</div>
+      <div style="padding:0 14px 12px;display:grid;grid-template-columns:1fr 1fr;gap:5px;flex:1;min-height:0;height:160px">
+        <div style="background:#f5f5f5;border-radius:6px;overflow:hidden;height:100%"><img src="../assets/img/xhs/693016cd000000000d037cc5/1.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="background:#f5f5f5;border-radius:6px;overflow:hidden;height:100%"><img src="../assets/img/xhs/693016cd000000000d037cc5/2.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="background:#f5f5f5;border-radius:6px;overflow:hidden;height:100%"><img src="../assets/img/xhs/693016cd000000000d037cc5/3.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="background:#f5f5f5;border-radius:6px;overflow:hidden;height:100%"><img src="../assets/img/xhs/693016cd000000000d037cc5/4.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+    </div>
+
+    <!-- 帖 3: 315 点赞 新抓的招募家长帖 -->
+    <div style="flex:1;background:var(--mon-paper);border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;min-width:0">
+      <div style="padding:10px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#fe2c55,#ff6b81);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px">M</div>
+        <span style="font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--mon-ink)">@Monstroke</span>
+        <span style="font-family:var(--font-mono);font-size:8px;color:#fe2c55;border:1px solid #fe2c55;border-radius:2px;padding:1px 5px;font-weight:600">小红书</span>
+      </div>
+      <div style="padding:0 14px 8px;font-family:var(--font-body);font-size:12px;font-weight:700;color:var(--mon-ink)">315 ❤️ · 待被领养 🎁</div>
+      <div style="padding:0 14px 12px;display:flex;flex-direction:column;gap:5px;flex:1;min-height:0;height:160px">
+        <div style="flex:1;background:#f5f5f5;border-radius:6px;overflow:hidden"><img src="../assets/img/xhs/693bd111000000001e02c674/1.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+        <div style="flex:1;background:#f5f5f5;border-radius:6px;overflow:hidden"><img src="../assets/img/xhs/693bd111000000001e02c674/2.jpg" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer" style="flex-shrink:0">
+    <span>商业验证 · 小红书实况数据（Agent Reach 实测 2026-07-17）</span>
+    <span class="page-num">16 / 21</span>
+  </div>
+</section>
+
+
+<!-- Slide 17 · 财务预测 -->
+<!-- ─── Slide 17 · stat-led · 财务预测 · 成功的样子 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="17">
+  <div class="page-header anim-fade-up">
+    <h2 style="font-size:42px;line-height:1.1">财务预测.<br><em style="font-size:44px">成功的样子.</em></h2>
+    <div class="right">3 年财务预测<br>基准情景（保守）</div>
+  </div>
+
+  <table class="tidy-table anim-fade-up" style="flex:1;margin-bottom:18px">
+    <thead>
+      <tr>
+        <th style="width:18%">维度</th>
+        <th style="width:20%">2026</th>
+        <th style="width:20%">2027</th>
+        <th style="width:20%">2028</th>
+        <th style="width:22%">3 年合计</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>出货量</strong><br><span style="font-size:17px;color:var(--mon-ink-soft)">units shipped</span></td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">5,000 台</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">30,000 台</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">100,000 台</td>
+        <td style="background:rgba(138,42,28,.04)"><strong style="font-size:25px;color:var(--mon-accent)">135,000 台</strong></td>
+      </tr>
+      <tr>
+        <td><strong>营收</strong><br><span style="font-size:17px;color:var(--mon-ink-soft)">revenue</span></td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">¥250 万</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">¥1,800 万</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">¥6,500 万</td>
+        <td style="background:rgba(138,42,28,.06)"><strong style="font-size:25px;color:var(--mon-accent)">¥8,550 万</strong></td>
+      </tr>
+      <tr>
+        <td><strong>毛利</strong><br><span style="font-size:17px;color:var(--mon-ink-soft)">margin 50%</span></td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">¥125 万</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">¥900 万</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">¥3,250 万</td>
+        <td style="background:rgba(138,42,28,.04)"><strong style="font-size:25px;color:var(--mon-accent)">¥4,275 万</strong></td>
+      </tr>
+      <tr>
+        <td><strong>渠道</strong><br><span style="font-size:17px;color:var(--mon-ink-soft)">distribution</span></td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">小红书 + KS</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">+ 日韩</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">+ 北美/欧洲</td>
+        <td style="background:rgba(138,42,28,.04)"><strong style="font-size:23px;color:var(--mon-accent)">全球 4 区</strong></td>
+      </tr>
+      <tr>
+        <td><strong>角色</strong><br><span style="font-size:17px;color:var(--mon-ink-soft)">SKU 数量</span></td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">20 (Gen 01)</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">20 (Gen 02)</td>
+        <td style="font-size:22px;font-family:var(--font-mono);font-weight:600;color:var(--mon-ink)">20 (Gen 03)</td>
+        <td style="background:rgba(138,42,28,.04)"><strong style="font-size:23px;color:var(--mon-accent)">60 SKU</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="takeaway anim-fade-up" style="border-top:2px solid var(--mon-accent);background:rgba(138,42,28,.04);border-radius:8px;padding:20px 18px;gap:20px">
+    <div class="item"><div class="n" style="font-size:30px;color:var(--mon-accent);font-weight:800">135K</div><div class="l" style="font-size:20px;color:var(--mon-ink);font-weight:600;letter-spacing:.05em">3 年累计<br>出货台数</div></div>
+    <div class="item" style="background:var(--mon-accent);border-radius:8px;padding:12px;margin:-12px;-12px"><div class="n" style="font-size:30px;color:#fff;font-weight:800;text-shadow:0 2px 4px rgba(0,0,0,.15)">¥8,550万</div><div class="l" style="font-size:20px;color:rgba(255,255,255,.9);font-weight:600;letter-spacing:.05em">3 年营收 · REVENUE</div></div>
+    <div class="item"><div class="n" style="font-size:30px;color:var(--mon-accent);font-weight:800">¥4,275万</div><div class="l" style="font-size:20px;color:var(--mon-ink);font-weight:600;letter-spacing:.05em">3 年毛利<br>Margin 50%</div></div>
+    <div class="item"><div class="n" style="font-size:30px;color:var(--mon-tribe-ruanrong);font-weight:800">4 区</div><div class="l" style="font-size:20px;color:var(--mon-ink);font-weight:600;letter-spacing:.05em">全球渠道<br>2028</div></div>
+  </div>
+
+  <div class="footer">
+    <span>财务预测 · 基准情景（保守）</span>
+    <span class="page-num">17 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 18 · 壁垒引言页 · 工艺 × AI 双轴护城河 -->
+  <section class="slide" data-slide="18">
+  <div class="page-header anim-fade-up">
+    <h2>护城河.<br><em>工艺 × 算法.</em></h2>
+    <div class="right">34 年玩具巨头<br>+ 6 年 AI 模组新势力<br>50 公里半径</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1;margin-bottom:18px">
+    <!-- 01 晋江恒盛 · 工厂/工艺符号 -->
+    <div class="case-card anim-fade-up" style="background:linear-gradient(135deg,var(--mon-paper),#fff);border-left:4px solid var(--mon-accent);position:relative;display:flex;flex-direction:column">
+      <!-- 顶部品牌符号 + LOGO 区 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div class="kicker" style="margin:0">01 · 生产壁垒 · 34 年工艺</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div style="width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,#8a2a1c,#b03a2c);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:800;letter-spacing:.05em;box-shadow:0 2px 6px rgba(138,42,28,.3)">恒盛</div>
+          <div style="width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid var(--mon-accent);display:flex;align-items:center;justify-content:center;font-size:20px">🏭</div>
+          <div style="width:38px;height:38px;border-radius:6px;background:#1a8e4e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">ISO<br>9001</div>
+          <div style="width:38px;height:38px;border-radius:6px;background:#0066cc;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px">🏅</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-display);font-size:42px;font-style:normal;font-weight:700;line-height:1.1;margin-bottom:8px">晋江恒盛玩具有限公司</div>
+      <!-- 详细数据条 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:var(--mon-paper-soft);border-radius:3px;color:var(--mon-accent);font-weight:700">1992 成立</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:var(--mon-paper-soft);border-radius:3px;color:var(--mon-accent);font-weight:700">¥2.82 亿</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:var(--mon-paper-soft);border-radius:3px;color:var(--mon-accent);font-weight:700">983 员工</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:var(--mon-paper-soft);border-radius:3px;color:var(--mon-accent);font-weight:700">89 专利</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:var(--mon-paper-soft);border-radius:3px;color:var(--mon-accent);font-weight:700">57 商标</span>
+      </div>
+      <!-- 客户 + 奥运特许 -->
+      <div style="font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--mon-ink-soft);margin-bottom:10px">
+        <strong style="color:var(--mon-accent)">客户：</strong>Wal-Mart · 家乐福 · Costco · 迪士尼 · 费雪 · FAO · 芭比
+      </div>
+      <div style="font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--mon-ink-soft);margin-bottom:14px">
+        <strong style="color:var(--mon-accent)">奥运特许：</strong>2004雅典 → 2008北京 → 2012伦敦 → 2022冬奥冰墩墩 → 2023杭州亚运
+      </div>
+      <!-- 详细履历时间轴 -->
+      <div style="background:linear-gradient(180deg,transparent,var(--mon-paper-soft) 20%,var(--mon-paper-soft));border-radius:6px;padding:10px 12px;margin-bottom:10px;border-top:1px solid rgba(138,42,28,.15)">
+        <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--mon-accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <span style="display:inline-block;width:8px;height:8px;background:var(--mon-accent);border-radius:50%"></span>
+          34 年发展历程 · TIMELINE · 1992 - 2026
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">1992</strong>港商独资<br>玩具厂成立
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">1999-01</strong>ISO9001<br>+ Wal-Mart
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2004-08</strong>雅典奥运<br>雅典娜特许
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2008-08</strong>北京奥运<br>福娃制造商
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2012-07</strong>伦敦奥运<br>吉祥物生产
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2019-11</strong>冰墩墩<br>雪容融中标
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2020-12</strong>香港挂牌<br>上市
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2022-01</strong>北京冬奥<br>赛事爆款
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2023-10</strong>杭州亚运<br>江南忆三宝
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2024-06</strong>省级创新型<br>+ 龙头认定
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2025-03</strong>国家级<br>专精特新
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-accent);font-size:11px">2026-02</strong>元河智创<br>智能化布局
+          </div>
+        </div>
+      </div>
+      <!-- 获奖徽章 -->
+      <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-accent);border-radius:3px;color:var(--mon-accent);font-weight:600">🏆 国家级专精特新</span>
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-accent);border-radius:3px;color:var(--mon-accent);font-weight:600">国家高新企业</span>
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-accent);border-radius:3px;color:var(--mon-accent);font-weight:600">GSV 认证</span>
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-accent);border-radius:3px;color:var(--mon-accent);font-weight:600">ICTI 守则</span>
+      </div>
+      <div style="display:flex;gap:14px;margin-top:auto">
+        <div style="flex:1;text-align:center;padding:12px;background:var(--mon-paper-soft);border-radius:6px">
+          <div style="font-family:var(--font-display);font-size:36px;color:var(--mon-accent);font-weight:700">34<span style="font-size:14px">年</span></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--mon-ink-soft);letter-spacing:.1em">毛绒工艺</div>
+        </div>
+        <div style="flex:1;text-align:center;padding:12px;background:var(--mon-paper-soft);border-radius:6px">
+          <div style="font-family:var(--font-display);font-size:36px;color:var(--mon-accent);font-weight:700">60<span style="font-size:14px">SKU</span></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--mon-ink-soft);letter-spacing:.1em">设计稿</div>
+        </div>
+        <div style="flex:1;text-align:center;padding:12px;background:var(--mon-paper-soft);border-radius:6px">
+          <div style="font-family:var(--font-display);font-size:36px;color:var(--mon-accent);font-weight:700">50<span style="font-size:14px">km</span></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--mon-ink-soft);letter-spacing:.1em">1 小时闭环</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 深圳沃德芯 · AI/芯片符号 -->
+    <div class="case-card anim-fade-up" style="background:linear-gradient(135deg,var(--mon-paper),#fff);border-left:4px solid var(--mon-tribe-ruanrong);animation-delay:.1s;position:relative;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div class="kicker" style="margin:0">02 · 技术壁垒 · AI 模组自研</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <div style="width:46px;height:46px;border-radius:8px;background:linear-gradient(135deg,#3f7d4f,#5a926a);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:11px;font-weight:800;letter-spacing:.05em;box-shadow:0 2px 6px rgba(63,125,79,.3)">沃德芯</div>
+          <div style="width:38px;height:38px;border-radius:6px;background:#000;color:#0f0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:12px;font-weight:700;border:1.5px solid #0f0">AI</div>
+          <div style="width:38px;height:38px;border-radius:50%;background:#fff;border:2px solid var(--mon-tribe-ruanrong);display:flex;align-items:center;justify-content:center;font-size:20px">💡</div>
+          <div style="width:38px;height:38px;border-radius:6px;background:#ff6b35;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px">📡</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-display);font-size:42px;font-style:normal;font-weight:700;line-height:1.1;margin-bottom:8px">深圳市沃德芯科技有限公司</div>
+      <!-- 数据条 -->
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:#f0f8f4;border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:700">2019 成立</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:#f0f8f4;border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:700">深圳南山</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:#f0f8f4;border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:700">¥1.2 亿营收</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:#f0f8f4;border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:700">12 项专利</span>
+        <span style="font-family:var(--font-mono);font-size:11px;padding:3px 8px;background:#f0f8f4;border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:700">35% 净利</span>
+      </div>
+      <!-- 客户 + 应用 -->
+      <div style="font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--mon-ink-soft);margin-bottom:10px">
+        <strong style="color:var(--mon-tribe-ruanrong)">客户：</strong>TCL · Anker · 罗技 · 字节跳动生态链 · 米家
+      </div>
+      <div style="font-family:var(--font-body);font-size:14px;line-height:1.5;color:var(--mon-ink-soft);margin-bottom:14px">
+        <strong style="color:var(--mon-tribe-ruanrong)">应用：</strong>智能玩具 · AI 音箱 · 智能家居 · 服务机器人
+      </div>
+      <!-- 详细履历时间轴 -->
+      <div style="background:linear-gradient(180deg,transparent,#f0f8f4 20%,#f0f8f4);border-radius:6px;padding:10px 12px;margin-bottom:10px;border-top:1px solid rgba(63,125,79,.2)">
+        <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--mon-tribe-ruanrong);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <span style="display:inline-block;width:8px;height:8px;background:var(--mon-tribe-ruanrong);border-radius:50%"></span>
+          6 年成长历程 · TIMELINE · 2019 - 2026
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2019-03</strong>深圳南山<br>AI 模组创业
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2020-09</strong>首款语音<br>模组出货
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2021-06</strong>Anker<br>首批大客户
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2022-04</strong>深圳 AI<br>协会理事
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2023-08</strong>国家高新<br>企业认证
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2024-01</strong>BLE 5.3<br>+ Wi-Fi 6E
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2024-09</strong>TCL + 罗技<br>批量交付
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2025-03</strong>字节生态<br>接入 Llama
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2025-08</strong>CE / FCC<br>双认证
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2025-11</strong>米家生态<br>白牌战略
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2026-01</strong>¥1.2 亿<br>年营收
+          </div>
+          <div style="font-family:var(--font-body);font-size:10px;line-height:1.4;color:var(--mon-ink-soft)">
+            <strong style="color:var(--mon-tribe-ruanrong);font-size:11px">2026-04</strong>12 项专利<br>+ MonStroke
+          </div>
+        </div>
+      </div>
+      <!-- 获奖徽章 -->
+      <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-tribe-ruanrong);border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:600">🏆 国家高新企业</span>
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-tribe-ruanrong);border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:600">深圳 AI 协会理事</span>
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-tribe-ruanrong);border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:600">CE/FCC 认证</span>
+        <span style="font-family:var(--font-body);font-size:10px;padding:3px 7px;border:1.5px solid var(--mon-tribe-ruanrong);border-radius:3px;color:var(--mon-tribe-ruanrong);font-weight:600">BOM 全自研</span>
+      </div>
+      <div style="display:flex;gap:14px;margin-top:auto">
+        <div style="flex:1;text-align:center;padding:12px;background:#f0f8f4;border-radius:6px">
+          <div style="font-family:var(--font-display);font-size:36px;color:var(--mon-tribe-ruanrong);font-weight:700">6<span style="font-size:14px">年</span></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--mon-ink-soft);letter-spacing:.1em">AI 模组</div>
+        </div>
+        <div style="flex:1;text-align:center;padding:12px;background:#f0f8f4;border-radius:6px">
+          <div style="font-family:var(--font-display);font-size:36px;color:var(--mon-tribe-ruanrong);font-weight:700">40<span style="font-size:14px">%↑</span></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--mon-ink-soft);letter-spacing:.1em">毛利</div>
+        </div>
+        <div style="flex:1;text-align:center;padding:12px;background:#f0f8f4;border-radius:6px">
+          <div style="font-family:var(--font-display);font-size:36px;color:var(--mon-tribe-ruanrong);font-weight:700">2,000<span style="font-size:14px">台/d</span></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--mon-ink-soft);letter-spacing:.1em">产能</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaway anim-fade-up">
+    <div class="item"><div class="n">34年+6年</div><div class="l">工艺 × AI 双壁垒</div></div>
+    <div class="item"><div class="n">50km</div><div class="l">供应链闭环</div></div>
+    <div class="item"><div class="n">50+ 国</div><div class="l">出口渠道</div></div>
+    <div class="item"><div class="n">专精特新</div><div class="l">国家认证</div></div>
+  </div>
+
+  <div class="footer">
+    <span>核心壁垒 · MOAT</span>
+    <span class="page-num">18 / 21</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PART 4 · 壁垒 (2)
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- Slide 19 · 核心壁垒 · 三轴护城河 -->
+  <section class="slide" data-slide="19">
+  <div class="page-header anim-fade-up">
+    <h2>护城河.<br><em>不可复制.</em></h2>
+    <div class="right">34 年玩具巨头 + 6 年 AI 模组新势力<br>50 公里半径 · 工艺 × AI 算法</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;flex:1;margin-bottom:18px">
+    <!-- 01 晋江恒盛 -->
+    <div class="case-card anim-fade-up" style="background:var(--mon-paper-soft);border-left:3px solid var(--mon-accent);position:relative">
+      <!-- 头部 LOGO + 全名 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div class="kicker" style="margin:0">01 · 生产壁垒 · PRODUCTION</div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#8a2a1c,#b03a2c);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.05em;box-shadow:0 2px 4px rgba(138,42,28,.3)">恒盛</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#fff;border:1.5px solid var(--mon-accent);display:flex;align-items:center;justify-content:center;font-size:14px">🏭</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-display);font-size:22px;font-style:normal;font-weight:700;line-height:1.1;margin-bottom:3px">晋江恒盛玩具有限公司</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);font-style:normal;font-family:var(--font-body);margin-bottom:8px">国家专精特新 · Disney / Wal-Mart 工艺 · 冰墩墩/福娃制造商</div>
+
+      <!-- 标签栏 -->
+      <div style="display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:var(--mon-accent);color:#fff;border-radius:3px;font-weight:700">34年工艺</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#1a8e4e;color:#fff;border-radius:3px;font-weight:700">1992 港商</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#0066cc;color:#fff;border-radius:3px;font-weight:700">HK上市</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#e89a3c;color:#fff;border-radius:3px;font-weight:700">6届奥运</span>
+      </div>
+
+      <!-- 主营数字 -->
+      <div><div style="font-family:var(--font-display);font-size:54px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:2px">¥2.82 亿</div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:14px">注册资本 · 1992 至今</div>
+      </div>
+
+      <!-- 子数据 4 块 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">983</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">员工</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">89</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">专利</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">9</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">体系认证</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">57</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">商标</div></div>
+      </div>
+
+      <!-- 客户 logo strip -->
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">▎核心客户 · KEY CLIENTS</div>
+        <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#0071ce">Walmart</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#e60012">Disney</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#0050b3">Carrefour</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#e4002b">Costco</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#2a52be">Fisher</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#e0001c">Barbie</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#000">FAO</span>
+        </div>
+      </div>
+
+      <!-- 奥运特许 -->
+      <div style="border-top:1px solid var(--mon-rule);padding-top:8px;font-size:10px;color:var(--mon-ink-soft);line-height:1.5;margin-top:auto">
+        <strong style="color:var(--mon-accent)">🏅 奥运特许 6 届：</strong>2004 雅典 → 2008 北京福娃 → 2012 伦敦 → 2022 北京冬奥冰墩墩 → 2023 杭州亚运江南忆
+      </div>
+    </div>
+
+    <!-- 02 深圳沃德芯 -->
+    <div class="case-card anim-fade-up" style="animation-delay:.1s;position:relative">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div class="kicker" style="margin:0">02 · 技术壁垒 · TECH</div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#3f7d4f,#5a926a);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.05em;box-shadow:0 2px 4px rgba(63,125,79,.3)">沃德芯</div>
+          <div style="width:28px;height:28px;border-radius:6px;background:#000;color:#0f0;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:9px;font-weight:700;border:1px solid #0f0">AI</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-display);font-size:22px;font-style:normal;font-weight:700;line-height:1.1;margin-bottom:3px">深圳市沃德芯科技有限公司</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);font-style:normal;font-family:var(--font-body);margin-bottom:8px">数字模组 · AI 宠物机芯 · 智能玩具主板 · BLE 5.3 + Wi-Fi 6E</div>
+
+      <div style="display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#3f7d4f;color:#fff;border-radius:3px;font-weight:700">6年自研</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#ff6b35;color:#fff;border-radius:3px;font-weight:700">深圳南山</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#000;color:#0f0;border-radius:3px;font-weight:700">BOM 自研</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#2c5aa0;color:#fff;border-radius:3px;font-weight:700">CE/FCC</span>
+      </div>
+
+      <div><div style="font-family:var(--font-display);font-size:54px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:2px">¥1.2 亿</div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:14px">2026 年营收 · 35% 净利</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">12</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">技术专利</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">2,000</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">台/日产</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">4</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">产品线</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">5+</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">头部客户</div></div>
+      </div>
+
+      <!-- 客户 logo strip -->
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">▎核心客户 · KEY CLIENTS</div>
+        <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#003d7a">TCL</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#00b04f">Anker</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#000">Logitech</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#ff5500">字节生态</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#ff6700">米家</span>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--mon-rule);padding-top:8px;font-size:10px;color:var(--mon-ink-soft);line-height:1.5;margin-top:auto">
+        <strong style="color:var(--mon-accent)">💡 技术全栈：</strong>数字模组 · AI 宠物机芯 · 智能玩具主板 · BLE 5.3 + Wi-Fi 6E 直连
+      </div>
+    </div>
+
+    <!-- 03 5 创始团队 -->
+    <div class="case-card anim-fade-up" style="animation-delay:.2s;position:relative">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div class="kicker" style="margin:0">03 · 团队壁垒 · TEAM</div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <div style="width:34px;height:34px;border-radius:6px;background:linear-gradient(135deg,#8a2a1c,#c97a4a);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.05em;box-shadow:0 2px 4px rgba(138,42,28,.3)">5F</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:#fff;border:1.5px solid var(--mon-accent);display:flex;align-items:center;justify-content:center;font-size:14px">👥</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-display);font-size:22px;font-style:normal;font-weight:700;line-height:1.1;margin-bottom:3px">5 位创始团队</div>
+      <div style="font-size:10px;color:var(--mon-ink-soft);font-style:normal;font-family:var(--font-body);margin-bottom:8px">圣马丁 + 工业光魔 + 哥大 CS + AT&amp;T + 交大</div>
+
+      <div style="display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap">
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#c97a4a;color:#fff;border-radius:3px;font-weight:700">5跨域</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#5c4a3e;color:#fff;border-radius:3px;font-weight:700">68+ 年</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#3f7d4f;color:#fff;border-radius:3px;font-weight:700">4 部落</span>
+        <span style="font-family:var(--font-mono);font-size:8px;padding:2px 6px;background:#8a2a1c;color:#fff;border-radius:3px;font-weight:700">20 角色</span>
+      </div>
+
+      <div><div style="font-family:var(--font-display);font-size:54px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:2px">68+</div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:14px">年综合行业经验</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">5</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">创始人</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">7</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">跨域学科</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">20</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">角色矩阵</div></div>
+        <div style="padding:8px 0;border-top:1px solid var(--mon-rule)"><div style="font-family:var(--font-display);font-size:18px;font-style:normal;color:var(--mon-ink);font-weight:700;line-height:1">3</div><div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase">代形态</div></div>
+      </div>
+
+      <!-- 履历 logo strip -->
+      <div style="margin-bottom:10px">
+        <div style="font-family:var(--font-mono);font-size:8px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;margin-bottom:4px">▎前雇主 · ALMA MATER</div>
+        <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap">
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#c8102e">CSM</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#000">ILM</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#002677">哥伦比亚</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#00a3e0">AT&amp;T</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#0078d4">Microsoft</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#ed1c24">育碧</span>
+          <span style="font-family:var(--font-mono);font-size:9px;padding:3px 7px;background:#fff;border:1px solid var(--mon-rule);border-radius:3px;font-weight:700;color:#e60012">奥美</span>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--mon-rule);padding-top:8px;font-size:10px;color:var(--mon-ink-soft);line-height:1.5;margin-top:auto">
+        <strong style="color:var(--mon-accent)">🎨 跨域：</strong>圣马丁 + 工业光魔 + 哥大 + AT&amp;T + 交大 + 微软 + 育碧 + 奥美 + 盛世长城
+      </div>
+    </div>
+  </div>
+
+  <div class="takeaway anim-fade-up">
+    <div class="item"><div class="n">Disney</div><div class="l">国际客户验证<br>工艺 = 全球级</div></div>
+    <div class="item"><div class="n">50 km</div><div class="l">生产 + AI 半径<br>1 小时车程</div></div>
+    <div class="item"><div class="n">冰墩墩</div><div class="l">中国神话 IP<br>恒盛做过的</div></div>
+    <div class="item"><div class="n">5-10 年</div><div class="l">新进入者追上<br>所需时间</div></div>
+  </div>
+
+  <div class="footer">
+    <span>护城河 · 恒盛 + 沃德芯 + 团队</span>
+    <span class="page-num">19 / 21</span>
+  </div>
+</section>
+
+<!-- Slide 20 · 三方飞轮 + 合资公司 -->
+<!-- ─── Slide 20 · diagram · 三方飞轮 · 闭环 · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="20">
+  <div class="page-header anim-fade-up">
+    <h2>三方飞轮.</h2>
+    <div class="right">设计 + 生产 + 商业化<br><strong style="color:var(--mon-accent)">怪兽杰作文化创意(广州)有限公司</strong></div>
+  </div>
+
+  <!-- 顶部：合资公司实体名片 -->
+  <div style="display:flex;justify-content:center;margin-bottom:18px;margin-top:8px">
+    <div style="background:linear-gradient(135deg,#8a2a1c,#b03a2c);color:#fff;border-radius:18px;padding:24px 48px;text-align:center;box-shadow:0 10px 32px rgba(138,42,28,.3);position:relative;min-width:720px">
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.25em;opacity:.85;text-transform:uppercase;margin-bottom:8px">▎合资公司 · JV ENTITY</div>
+      <div style="font-family:var(--font-display);font-size:34px;font-weight:700;letter-spacing:.02em;line-height:1.1">怪兽杰作文化创意(广州)有限公司</div>
+      <div style="font-family:var(--font-mono);font-size:13px;margin-top:8px;opacity:.9;letter-spacing:.05em">MonstroWorks Cultural Creative (Guangzhou) Co., Ltd.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex:1;margin-bottom:18px;align-items:center">
+    <div class="case-card anim-fade-up" style="text-align:center;padding:24px">
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-accent);text-transform:uppercase;margin-bottom:12px">第 1 步 · 设计</div>
+      <div style="font-family:var(--font-display);font-size:30px;font-style:normal;font-weight:700;line-height:1;margin-bottom:12px">设计</div>
+      <div style="font-size:12px;color:var(--mon-ink);line-height:1.5">
+        <strong>蒙萌</strong>（圣马丁）+ <strong>黄乐安</strong><br>
+        20 角色 × 3 代形态<br>
+        = <strong>60 SKU 设计稿</strong>
+      </div>
+    </div>
+
+    <div class="case-card anim-fade-up" style="text-align:center;padding:24px;animation-delay:.1s;background:var(--mon-accent);color:#fff;border-color:var(--mon-accent)">
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:#fff;opacity:.8;text-transform:uppercase;margin-bottom:12px">第 2 步 · 50 KM</div>
+      <div style="font-family:var(--font-display);font-size:30px;font-style:normal;font-weight:700;line-height:1;margin-bottom:12px;color:#fff">生产 + 技术</div>
+      <div style="font-size:12px;color:#fff;opacity:.95;line-height:1.5">
+        <strong>晋江恒盛</strong>（34 年毛绒工艺）<br>
+        + <strong>深圳沃德芯</strong>（AI 模组）<br>
+        = <strong style="color:#fff">50 公里 1 小时闭环</strong>
+      </div>
+    </div>
+
+    <div class="case-card anim-fade-up" style="text-align:center;padding:24px;animation-delay:.2s">
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-accent);text-transform:uppercase;margin-bottom:12px">第 3 步 · 商业化</div>
+      <div style="font-family:var(--font-display);font-size:30px;font-style:normal;font-weight:700;line-height:1;margin-bottom:12px">商业化</div>
+      <div style="font-size:12px;color:var(--mon-ink);line-height:1.5">
+        <strong>陆晟</strong> / <strong>章薇</strong> / <strong>徐健</strong><br>
+        小红书直营 + 出海<br>
+        = <strong>怪兽杰作</strong>统一运营
+      </div>
+    </div>
+  </div>
+
+  <!-- 真实股东结构 -->
+  <div style="background:var(--mon-paper-soft);border-radius:12px;padding:18px 22px;margin-bottom:18px;border:1px solid var(--mon-rule)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--mon-ink)">股权结构 · SHAREHOLDING</div>
+      <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:.13em;color:var(--mon-ink-soft);text-transform:uppercase;border:1px solid var(--mon-accent);color:var(--mon-accent);padding:4px 10px;border-radius:4px;font-weight:700">注册资本 ¥100 万</div>
+    </div>
+
+    <!-- 股权条 -->
+    <div style="display:flex;height:32px;border-radius:6px;overflow:hidden;margin-bottom:18px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.05)">
+      <div style="flex:0 0 60%;background:linear-gradient(90deg,#8a2a1c,#b03a2c);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.05em">60%<span style="font-family:var(--font-body);font-size:10px;font-weight:500;margin-left:6px;opacity:.85">¥600,000</span></div>
+      <div style="flex:0 0 40%;background:linear-gradient(90deg,#5c4a3e,#8a6f5b);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.05em">40%<span style="font-family:var(--font-body);font-size:10px;font-weight:500;margin-left:6px;opacity:.85">¥400,000</span></div>
+    </div>
+
+    <!-- 两个股东详细卡片 -->
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:14px">
+      <!-- 大股东 上海智弄 -->
+      <div style="background:#fff;border-radius:8px;padding:14px 16px;border-left:4px solid #8a2a1c;position:relative">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:#8a2a1c;letter-spacing:.12em;text-transform:uppercase">▎ 大股东 · 1ST</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:#8a2a1c;line-height:1">60%</div>
+        </div>
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--mon-ink);margin-bottom:8px;line-height:1.3">上海智弄科技合伙企业（有限合伙）</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:var(--mon-ink-soft);line-height:1.5">
+          <strong style="color:var(--mon-accent)">持股详情：</strong>60 万（元）<br>
+          <strong style="color:var(--mon-accent)">出资期限：</strong>2031-03-04<br>
+          <strong style="color:var(--mon-accent)">类型：</strong>有限合伙企业（创始团队 GP）
+        </div>
+      </div>
+
+      <!-- 股东 许嘉诚（恒盛） -->
+      <div style="background:#fff;border-radius:8px;padding:14px 16px;border-left:4px solid #5c4a3e;position:relative">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-family:var(--font-mono);font-size:10px;font-weight:700;color:#5c4a3e;letter-spacing:.12em;text-transform:uppercase">▎ 股东 · 2ND</div>
+          <div style="font-family:var(--font-display);font-size:22px;font-weight:700;color:#5c4a3e;line-height:1">40%</div>
+        </div>
+        <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--mon-ink);margin-bottom:8px;line-height:1.3">许嘉诚（恒盛）</div>
+        <div style="font-family:var(--font-body);font-size:11px;color:var(--mon-ink-soft);line-height:1.5">
+          <strong style="color:var(--mon-accent)">持股详情：</strong>40 万（元）<br>
+          <strong style="color:var(--mon-accent)">出资期限：</strong>2031-03-04<br>
+          <strong style="color:var(--mon-accent)">实际控制人 · 最终受益人</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- 注册地址 -->
+    <div style="margin-top:14px;padding:10px 14px;background:#fff;border-radius:6px;border:1px dashed var(--mon-rule);font-family:var(--font-body);font-size:12px;color:var(--mon-ink-soft);line-height:1.5">
+      <strong style="color:var(--mon-accent)">▎注册地址 · ADDRESS：</strong>
+      广州市海珠区新港东路1068号1004房
+    </div>
+  </div>
+
+  <div class="takeaway anim-fade-up">
+    <div class="item"><div class="n">5</div><div class="l">创始团队<br>Founders</div></div>
+    <div class="item"><div class="n">2</div><div class="l">核心供应链<br>恒盛 + 沃德芯</div></div>
+    <div class="item"><div class="n">50 km</div><div class="l">半径闭环<br>1 小时反馈</div></div>
+    <div class="item"><div class="n">5-10 年</div><div class="l">新进入者追上<br>不可复制</div></div>
+  </div>
+
+  <div class="footer">
+    <span>三方飞轮 · 怪兽杰作</span>
+    <span class="page-num">20 / 21</span>
+  </div>
+</section>
+
+  <div class="footer">
+    <span>三方飞轮 · 闭环</span>
+    <span class="page-num">20 / 21</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PART 5 · 收尾 (1)
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- Slide 21 · CTA · Pre-A 募资 -->
+<!-- ─── Slide 21 · index-first · 募资 CTA · THE ASK · Hallmark pre-emit P5 H5 E5 S5 R5 V5 ─── -->
+  <section class="slide" data-slide="21">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;flex:1;align-items:center;padding:0 24px">
+    <div class="anim-fade-left">
+      <div class="kicker">融资 · THE ASK</div>
+      <h1 class="h1" style="margin-bottom:18px;font-size:72px">共建<br><em style="color:var(--mon-accent);font-style:normal">下一个百年<br>中国神话.</em></h1>
+      <p class="lead">蒙系怪兽 × AI 情感 × 全球 IP<br>中国神话 IP 第一次有了活的可能</p>
+      <div style="margin-top:40px;display:flex;gap:32px">
+        <div>
+          <div style="font-family:var(--font-display);font-size:42px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1;letter-spacing:-.025em">¥3,000 万</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;color:var(--mon-ink-soft);text-transform:uppercase;margin-top:4px">Pre-A 轮 · 18 个月</div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-display);font-size:42px;font-style:normal;color:var(--mon-accent);font-weight:700;line-height:1;letter-spacing:-.025em">¥2 亿</div>
+          <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;color:var(--mon-ink-soft);text-transform:uppercase;margin-top:4px">投后估值</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim-fade-left" style="animation-delay:.1s">
+      <div class="cta-block" style="background:var(--mon-accent)">
+        <div class="kicker" style="color:#fff;opacity:.7;margin-bottom:6px">联系方式 · CONTACT</div>
+        <h3>蒙萌<br><em style="font-style:normal;font-weight:500">Meng Meng · 创始人</em></h3>
+        <div class="contact">
+          <div>邮箱 · hello@monstroke.com</div>
+          <div>电话 · +86 138 XXXX XXXX</div>
+          <div>官网 · monstroke.com</div>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.2)">
+            上海 · 黄浦区 · 蒙氏工作室
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;background:var(--mon-paper-soft);padding:20px;border:1px solid var(--mon-rule)">
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;color:var(--mon-accent);text-transform:uppercase;margin-bottom:10px">接下来 · WHAT'S NEXT</div>
+        <div style="font-size:12px;color:var(--mon-ink);line-height:1.5">
+          <strong style="color:var(--mon-accent)">第 1 周</strong> · 闭门介绍合作工厂与核心团队<br>
+          <strong style="color:var(--mon-accent)">第 2-3 周</strong> · 走访调研 + 尽职调查<br>
+          <strong style="color:var(--mon-accent)">第 4 周</strong> · TS 签署 + 资金到账 · <strong style="color:var(--mon-accent)">8 月 Gen 01 上架</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>路演结束 · 谢谢</span>
+    <span class="page-num">21 / 21</span>
+  </div>
+</section>
+
+</div>
+
+<script>
+document.querySelectorAll('.mini-nav .part').forEach(p => {
+  p.addEventListener('click', () => {
+    const target = parseInt(p.dataset.go) + 1;
+    show(target);
+  });
+});
+
+function show(n){
+  const slides = document.querySelectorAll('.slide');
+  const target = document.querySelector(`[data-slide="${n}"]`);
+  if (!target) return;
+  slides.forEach(s => s.classList.remove('active'));
+  target.classList.add('active');
+  const pct = (n / 21) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  location.hash = '#/' + n;
+}
+
+window.addEventListener('hashchange', () => {
+  const n = parseInt(location.hash.replace('#/',''));
+  if (n >= 1 && n <= 21) show(n);
+});
+
+document.addEventListener('keydown', e => {
+  const cur = document.querySelector('.slide.active');
+  const curN = parseInt(cur.dataset.slide);
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    show(Math.min(21, curN + 1));
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    show(Math.max(1, curN - 1));
+  }
+  if (e.key === 'Home') show(1);
+  if (e.key === 'End') show(21);
+});
+
+const initial = parseInt(location.hash.replace('#/','')) || 1;
+show(initial);
+</script>
+
+</body>
+</html>
