@@ -496,12 +496,15 @@ body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(-
 
 @media (max-width:480px){
   .mini-nav{display:none!important}
-  .slide{padding:12px 14px 40px}
-  .footer{left:14px;right:14px;bottom:10px;font-size:8px}
-  .h1{font-size:26px}
-  .h2{font-size:18px;line-height:1.25}
-  body{font-size:11px}
-  .kicker{font-size:9px}
+  .slide{padding:10px 10px 30px}
+  .footer{left:10px;right:10px;bottom:8px;font-size:7px}
+  .h1{font-size:22px}
+  .h2{font-size:15px;line-height:1.2}
+  body{font-size:10px}
+  .kicker{font-size:8px}
+  .page-header{margin-bottom:6px!important}
+  .page-header h2{font-size:15px!important;line-height:1.15!important}
+  .right{font-size:8px!important}
 
   /* 通用：禁止所有元素溢出 */
   .slide{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
@@ -638,6 +641,25 @@ body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(-
 
   /* 印章 */
   [style*="width:160px"]{width:96px!important;top:16px!important;right:16px!important}
+
+  /* 压缩密集 slide 内部 */
+  .lead{font-size:12px!important}
+  .subtitle{font-size:12px!important}
+  .page-header .right{font-size:8px!important}
+  .nine-card{padding:6px 8px!important}
+  .nine-card .n{font-size:16px!important}
+  .quote{font-size:10px!important;line-height:1.3!important}
+  .stats-list .stat-label{font-size:7px!important}
+  .stats-list .stat-num{font-size:11px!important}
+  .brand{font-size:16px!important}
+  .manufacturer{font-size:9px!important}
+
+  /* 3 列 → 单列 */
+  [data-slide="12"] [style*="flex:0 0 50%"]{flex:1 1 auto!important;width:100%!important;margin-bottom:6px!important}
+  [data-slide="18"] [style*="grid-template-columns:1.4fr 1fr"]{grid-template-columns:1fr!important}
+
+  /* bg-monster 在手机上不要重叠 */
+  .deck.bg-monster::before{opacity:.04!important}
 
   /* 单字或单图溢出保护 */
   img{max-width:100%;height:auto}
