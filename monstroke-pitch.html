@@ -2684,22 +2684,7 @@ applyMobileFixes();
 /* PhotoSwipe 初始化：所有 slide 图片支持双指缩放 */
 (function(){
   if (typeof PhotoSwipeLightbox === 'undefined') return;
-  // 收集所有图片 → PhotoSwipe data source
-  var items = [];
-  document.querySelectorAll('.slide img').forEach(function(img){
-    if (img.closest('.case-card-large')) return; // 卡片图片走卡片弹窗
-    if (!img.src || img.naturalWidth === 0) return;
-    items.push({
-      src: img.src,
-      w: img.naturalWidth || 1200,
-      h: img.naturalHeight || 800,
-      alt: img.alt || ''
-    });
-  });
-  if (!items.length) return;
-  
   var lightbox = new PhotoSwipeLightbox({
-    dataSource: items,
     pswpModule: PhotoSwipe,
     bgOpacity: 0.92,
     padding: { top: 20, bottom: 20, left: 20, right: 20 },
@@ -2708,33 +2693,33 @@ applyMobileFixes();
     closeOnVerticalDrag: true,
     showHideAnimationType: 'zoom',
     zoomAnimationDuration: 300,
-    maxWidthToAnimate: 400,
     imageClickAction: 'zoom',
     tapAction: 'toggle-controls',
     doubleTapAction: 'zoom'
   });
   lightbox.init();
   
-  // 点击图片 → 打开 lightbox
-  document.querySelectorAll('.slide img').forEach(function(img, idx){
+  // 给每个图片绑定自己的索引（点击图片时动态构建 items）
+  var imgList = [];
+  document.querySelectorAll('.slide img').forEach(function(img){
     if (img.closest('.case-card-large')) return;
+    if (!img.src) return;
+    img._psIdx = imgList.length;
+    imgList.push(img);
     img.style.cursor = 'zoom-in';
     img.addEventListener('click', function(e){
       e.stopPropagation();
-      // 找到该图片在 items 中的索引
-      var imgIdx = 0;
-      document.querySelectorAll('.slide img').forEach(function(im, i){
-        if (im === img) imgIdx = i;
+      // 动态构建 items（确保索引正确）
+      var items = imgList.map(function(im){
+        return {
+          src: im.src,
+          w: im.naturalWidth || 1200,
+          h: im.naturalHeight || 800,
+          alt: im.alt || ''
+        };
       });
-      // 过滤掉加载失败的图片后重新计算索引
-      var validIdx = 0;
-      var found = 0;
-      document.querySelectorAll('.slide img').forEach(function(im){
-        if (!im.src || im.naturalWidth === 0) return;
-        if (im === img) { found = validIdx; }
-        validIdx++;
-      });
-      lightbox.loadAndOpen(found);
+      lightbox.options.dataSource = items;
+      lightbox.loadAndOpen(img._psIdx);
     });
   });
 })();
