@@ -1195,13 +1195,28 @@
     if (m) m.style.display = 'none';
   }
   function markZoomable() {
-    document.querySelectorAll('.slide:not([data-slide="1"]):not([data-slide="2"]) img, .slide:not([data-slide="1"]):not([data-slide="2"]) .text, .slide:not([data-slide="1"]):not([data-slide="2"]) .quote, .slide:not([data-slide="1"]):not([data-slide="2"]) .persona, .slide:not([data-slide="1"]):not([data-slide="2"]) .case-card-large, .slide:not([data-slide="1"]):not([data-slide="2"]) .team-card, .slide:not([data-slide="1"]):not([data-slide="2"]) table, .slide:not([data-slide="1"]):not([data-slide="2"]) .takeaway, .slide:not([data-slide="1"]):not([data-slide="2"]) .stats-list, .slide:not([data-slide="1"]):not([data-slide="2"]) .footer, .slide:not([data-slide="1"]):not([data-slide="2"]) .right, .slide:not([data-slide="1"]):not([data-slide="2"]) .nine-card, .slide:not([data-slide="1"]):not([data-slide="2"]) [data-zoom]').forEach(function (el) {
+    // 容器级 (可点击整张)
+    document.querySelectorAll('.slide:not([data-slide="1"]):not([data-slide="2"]) .case-card-large, .slide:not([data-slide="1"]):not([data-slide="2"]) .team-card, .slide:not([data-slide="1"]):not([data-slide="2"]) .persona, .slide:not([data-slide="1"]):not([data-slide="2"]) .nine-card, .slide:not([data-slide="1"]):not([data-slide="2"]) .takeaway, .slide:not([data-slide="1"]):not([data-slide="2"]) table').forEach(function (el) {
       if (el.dataset.zoomBound) return;
       el.dataset.zoomBound = '1';
       el.style.cursor = 'zoom-in';
       el.title = '点击放大完整显示';
       el.addEventListener('click', function (e) {
-        if (e.target.closest('.mini-nav, .overview, .notes-overlay, .page-num, a, button')) return;
+        if (e.target.closest('.mini-nav, .overview, .notes-overlay, .page-num, a, button, .toc-link')) return;
+        e.stopPropagation();
+        openZoom(el);
+      });
+    });
+    // 单元素 (文本/数字/图片单独 zoom)
+    document.querySelectorAll('.slide:not([data-slide="1"]):not([data-slide="2"]) > img, .slide:not([data-slide="1"]):not([data-slide="2"]) .text, .slide:not([data-slide="1"]):not([data-slide="2"]) .quote, .slide:not([data-slide="1"]):not([data-slide="2"]) .stats-list, .slide:not([data-slide="1"]):not([data-slide="2"]) .footer, .slide:not([data-slide="1"]):not([data-slide="2"]) .right, .slide:not([data-slide="1"]):not([data-slide="2"]) [data-zoom]').forEach(function (el) {
+      // 跳过嵌套在 case-card-large 内的元素 (父级已处理)
+      if (el.closest('.case-card-large, .team-card, .persona, .nine-card, .takeaway')) return;
+      if (el.dataset.zoomBound) return;
+      el.dataset.zoomBound = '1';
+      el.style.cursor = 'zoom-in';
+      el.title = '点击放大完整显示';
+      el.addEventListener('click', function (e) {
+        if (e.target.closest('.mini-nav, .overview, .notes-overlay, .page-num, a, button, .toc-link, .case-card-large, .team-card, .persona')) return;
         e.stopPropagation();
         openZoom(el);
       });
