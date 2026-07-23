@@ -1154,4 +1154,60 @@
     fromHash();
     go(idx);
   });
+
+  /* ===== Click-to-zoom modal (点击放大完整显示) ===== */
+  function ensureZoomModal() {
+    let m = document.getElementById('__zoom_modal__');
+    if (m) return m;
+    m = document.createElement('div');
+    m.id = '__zoom_modal__';
+    m.style.cssText = [
+      'position:fixed', 'inset:0', 'z-index:9999',
+      'background:rgba(15,10,8,.92)', 'backdrop-filter:blur(8px)',
+      'display:none', 'align-items:center', 'justify-content:center',
+      'padding:40px', 'cursor:zoom-out'
+    ].join(';');
+    m.innerHTML = '<div id="__zoom_content__" style="max-width:90vw;max-height:90vh;overflow:auto;background:#faf7f2;border-radius:8px;padding:32px;box-shadow:0 20px 80px rgba(0,0,0,.4);cursor:auto"></div>';
+    document.body.appendChild(m);
+    m.addEventListener('click', closeZoom);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && m.style.display === 'flex') closeZoom();
+    });
+    return m;
+  }
+  function openZoom(el) {
+    const m = ensureZoomModal();
+    const content = document.getElementById('__zoom_content__');
+    const clone = el.cloneNode(true);
+    clone.style.maxWidth = 'none';
+    clone.style.maxHeight = 'none';
+    clone.style.width = 'auto';
+    clone.style.height = 'auto';
+    clone.style.fontSize = 'larger';
+    clone.style.lineHeight = '1.6';
+    clone.style.background = 'transparent';
+    content.innerHTML = '';
+    content.appendChild(clone);
+    m.style.display = 'flex';
+  }
+  function closeZoom() {
+    const m = document.getElementById('__zoom_modal__');
+    if (m) m.style.display = 'none';
+  }
+  function markZoomable() {
+    document.querySelectorAll('.slide.active img, .slide.active .text, .slide.active .quote, .slide.active .persona, .slide.active .case-card-large, .slide.active .team-card, .slide.active table, .slide.active .takeaway, .slide.active .stats-list, .slide.active .footer, .slide.active .right, .slide.active [data-zoom]').forEach(function (el) {
+      if (el.dataset.zoomBound) return;
+      el.dataset.zoomBound = '1';
+      el.style.cursor = 'zoom-in';
+      el.title = '点击放大完整显示';
+      el.addEventListener('click', function (e) {
+        if (e.target.closest('.mini-nav, .overview, .notes-overlay, .page-num, a, button')) return;
+        e.stopPropagation();
+        openZoom(el);
+      });
+    });
+  }
+  document.addEventListener('DOMContentLoaded', markZoomable);
+  const __zoomObs__ = new MutationObserver(markZoomable);
+  __zoomObs__.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
 })();
