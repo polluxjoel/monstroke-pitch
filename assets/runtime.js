@@ -1195,6 +1195,7 @@
     if (m) m.style.display = 'none';
   }
   function markZoomable() {
+    try {
     // 容器级 (可点击整张)
     document.querySelectorAll('.slide:not([data-slide="1"]):not([data-slide="2"]) .case-card-large, .slide:not([data-slide="1"]):not([data-slide="2"]) .team-card, .slide:not([data-slide="1"]):not([data-slide="2"]) .persona, .slide:not([data-slide="1"]):not([data-slide="2"]) .nine-card, .slide:not([data-slide="1"]):not([data-slide="2"]) .takeaway, .slide:not([data-slide="1"]):not([data-slide="2"]) table').forEach(function (el) {
       if (el.dataset.zoomBound) return;
@@ -1221,8 +1222,9 @@
         openZoom(el);
       });
     });
+    } catch(e) { console.warn('markZoomable:', e); }
   }
   document.addEventListener('DOMContentLoaded', markZoomable);
   const __zoomObs__ = new MutationObserver(markZoomable);
-  __zoomObs__.observe(document.body, { childList: true, subtree: true, characterData: true });
+  __zoomObs__.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
 })();
