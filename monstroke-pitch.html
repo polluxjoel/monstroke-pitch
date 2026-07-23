@@ -670,7 +670,6 @@ body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(-
   [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:repeat(3,1fr)!important;gap:6px!important}
 }
 </style>
-<link rel="stylesheet" href="assets/lib/photoswipe/photoswipe.css">
 </head>
 <body>
 
@@ -2663,7 +2662,7 @@ function applyMobileFixes(){
   document.querySelectorAll('.case-card-large').forEach(function(card){
     if(card.dataset.zm)return;card.dataset.zm='1';card.style.cursor='pointer';
     card.onclick=function(e){
-      if(e.target.closest('img'))return; // 图片走 PhotoSwipe
+      if(e.target.closest('img'))return; // 图片不放大
       e.stopPropagation();
       var ov=document.createElement('div');
       ov.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(15,10,8,.92);display:flex;align-items:center;justify-content:center;padding:20px;cursor:pointer';
@@ -2678,51 +2677,7 @@ applyMobileFixes();
 applyMobileFixes();
 </script>
 
-<script src="assets/lib/photoswipe/photoswipe.umd.min.js"></script>
-<script src="assets/lib/photoswipe/photoswipe-lightbox.umd.min.js"></script>
 <script>
-/* PhotoSwipe 初始化：所有 slide 图片支持双指缩放 */
-(function(){
-  if (typeof PhotoSwipeLightbox === 'undefined') return;
-  var lightbox = new PhotoSwipeLightbox({
-    pswpModule: PhotoSwipe,
-    bgOpacity: 0.92,
-    padding: { top: 20, bottom: 20, left: 20, right: 20 },
-    loop: true,
-    pinchToClose: true,
-    closeOnVerticalDrag: true,
-    showHideAnimationType: 'zoom',
-    zoomAnimationDuration: 300,
-    imageClickAction: 'zoom',
-    tapAction: 'toggle-controls',
-    doubleTapAction: 'zoom'
-  });
-  lightbox.init();
-  
-  // 给每个图片绑定自己的索引（点击图片时动态构建 items）
-  var imgList = [];
-  document.querySelectorAll('.slide img').forEach(function(img){
-    if (img.closest('.case-card-large')) return;
-    if (!img.src) return;
-    img._psIdx = imgList.length;
-    imgList.push(img);
-    img.style.cursor = 'zoom-in';
-    img.addEventListener('click', function(e){
-      e.stopPropagation();
-      // 动态构建 items（确保索引正确）
-      var items = imgList.map(function(im){
-        return {
-          src: im.src,
-          w: im.naturalWidth || 1200,
-          h: im.naturalHeight || 800,
-          alt: im.alt || ''
-        };
-      });
-      lightbox.options.dataSource = items;
-      lightbox.loadAndOpen(img._psIdx);
-    });
-  });
-})();
 
 /* 滑动惯性增强 (velocity tracking) */
 (function(){
