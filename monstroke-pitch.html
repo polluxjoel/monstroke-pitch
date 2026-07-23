@@ -2603,12 +2603,29 @@ function applyMobileFixes(){
   if (window.innerWidth > 480) return;
   document.querySelectorAll('.slide').forEach(function(s){s.style.overflowY='auto';s.style.overflowX='hidden';s.style.WebkitOverflowScrolling='touch'});
   var nav=document.querySelector('.mini-nav');if(nav)nav.style.display='none';
-  // S07 deco-tag
+  var g3=document.querySelector('[data-slide="3"] .why-grid');
+  if(g3){g3.style.gridTemplateColumns='1fr';g3.style.width='100%';}
+  var wl=document.querySelector('[data-slide="3"] .why-large');
+  if(wl){wl.style.gridRow='auto';wl.style.overflowY='auto';wl.style.maxHeight='none';}
+  document.querySelectorAll('[data-slide="5"] [style*="flex:1;min-height"]').forEach(function(el){el.style.flexDirection='column';});
+  var cs6=document.querySelector('[data-slide="6"] .content-side');
+  if(cs6){cs6.style.overflowY='auto';cs6.style.padding='10px';cs6.style.maxWidth='100%';}
   var d7=document.querySelector('[data-slide="7"] .deco-tag');
-  if(d7){d7.style.right='4px';d7.style.bottom='40px';d7.style.top='auto';}
-  // Team cards
+  if(d7){d7.style.right='4px';d7.style.bottom='40px';d7.style.top='auto';d7.style.zIndex='1';}
+  var lg7=document.querySelector('[data-slide="7"] .logos-grid');
+  if(lg7){lg7.style.zIndex='5';lg7.style.position='relative';}
+  var team=document.querySelector('.team');
+  if(team){team.style.gridTemplateColumns='repeat(2,1fr)';}
+  document.querySelectorAll('.team-card .portrait').forEach(function(el){el.style.height='80px'});
   document.querySelectorAll('.team-card').forEach(function(c){c.style.padding='4px'});
-  // Click-to-zoom
+  document.querySelectorAll('video').forEach(function(v){v.style.display='block'});
+  var s15=document.querySelector('[data-slide="15"]');
+  if(s15){s15.style.padding='0';}
+  var f15=document.querySelector('[data-slide="15"] [style*="display:flex;height:100%"]');
+  if(f15){f15.style.flexDirection='column';}
+  var f15b=document.querySelector('[data-slide="15"] [style*="flex:0.8"]');
+  if(f15b){f15b.style.flexDirection='column';}
+  document.querySelectorAll('[data-slide="18"] [style*="1.4fr"], [data-slide="19"] [style*="1.2fr"]').forEach(function(el){el.style.gridTemplateColumns='1fr';});
   document.querySelectorAll('.case-card-large').forEach(function(card){
     if(card.dataset.zm)return;card.dataset.zm='1';card.style.cursor='pointer';
     card.onclick=function(e){e.stopPropagation();
@@ -2622,14 +2639,7 @@ function applyMobileFixes(){
   });
 }
 
-/* 注入手机 CSS */
-(function(){
-  if(window.innerWidth>480)return;
-  var s=document.createElement('style');s.id='_m_';
-  s.textContent='.mini-nav{display:none!important}.slide:not([data-slide="1"]):not([data-slide="2"]){overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important;padding:6px 8px 20px!important}.slide:not([data-slide="1"]):not([data-slide="2"]) .footer{position:relative!important;margin-top:12px!important;font-size:7px!important}.slide:not([data-slide="1"]) .h2{font-size:15px!important}.slide:not([data-slide="1"]) .page-header h2{font-size:14px!important}.page-header .right{font-size:8px!important}[data-slide="3"] [style*="1.4fr"]{grid-template-columns:1fr!important}[data-slide="3"] .why-large{grid-row:auto!important;overflow-y:auto!important}[data-slide="3"] .why-card{overflow-y:auto!important}[data-slide="5"] [style*="display:flex;gap:8px;flex:1"]{flex-direction:column!important}[data-slide="6"] .content-side{overflow-y:auto!important;padding:10px!important;max-width:100%!important}[data-slide="6"] .text{font-size:16px!important}[data-slide="7"] .logos-grid{z-index:5!important;position:relative!important}[data-slide="7"] .deco-tag{z-index:1!important}.team{grid-template-columns:repeat(2,1fr)!important}.team-card .portrait{height:80px!important}video{display:block!important}[data-slide="15"]{padding:0!important}[data-slide="15"] [style*="height:100%"]{flex-direction:column!important}[data-slide="15"] [style*="flex:0.8"]{flex-direction:column!important}[data-slide="18"] [style*="1.4fr"]{grid-template-columns:1fr!important}[data-slide="19"] [style*="1.2fr"]{grid-template-columns:1fr!important}[style*="font-size:96px"]{font-size:42px!important}[style*="font-size:80px"]{font-size:36px!important}img{max-width:100%!important;height:auto!important}';
-  document.head.appendChild(s);
-  applyMobileFixes();
-})();
+applyMobileFixes();
 applyMobileFixes();
 </script>
 </body>
