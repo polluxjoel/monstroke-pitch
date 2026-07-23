@@ -81,12 +81,18 @@
 body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(--font-body);
   font-feature-settings:"kern","liga","calt","tnum";font-variant-numeric:tabular-nums}
 .deck{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden;background:var(--mon-paper)}
+.deck::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;background:url(assets/img/plush-toys-1200.png) center/cover no-repeat;transition:opacity .4s}
+.deck.bg-monster::before{opacity:.08}
 .slide{position:absolute;inset:0;height:100%;padding:50px 80px 70px;opacity:0;pointer-events:none;
-  transform:translateX(20px);
+  transform:translateX(20px);visibility:hidden;
   transition:opacity .25s cubic-bezier(0.4, 0, 0.2, 1),
-             transform .3s cubic-bezier(0.4, 0, 0.2, 1);
-  display:flex;flex-direction:column;overflow-y:auto}
-.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+             transform .3s cubic-bezier(0.4, 0, 0.2, 1),
+             visibility 0s linear .25s;
+  display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;z-index:1}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0);visibility:visible;z-index:2;
+  transition:opacity .25s cubic-bezier(0.4, 0, 0.2, 1),
+             transform .3s cubic-bezier(0.4, 0, 0.2, 1),
+             visibility 0s linear 0s}
 
 .kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;color:var(--mon-accent);
   text-transform:uppercase;margin-bottom:14px}
@@ -2459,6 +2465,12 @@ function show(n){
   target.classList.add('active');
   const pct = (n / 21) * 100;
   document.getElementById('progress').style.width = pct + '%';
+  // slide 1-8 保持 plush-toys 背景
+  const deck = document.querySelector('.deck');
+  if (deck) {
+    if (n >= 1 && n <= 8) deck.classList.add('bg-monster');
+    else deck.classList.remove('bg-monster');
+  }
   location.hash = '#/' + n;
 }
 

@@ -1195,7 +1195,7 @@
     if (m) m.style.display = 'none';
   }
   function markZoomable() {
-    document.querySelectorAll('.slide.active img, .slide.active .text, .slide.active .quote, .slide.active .persona, .slide.active .case-card-large, .slide.active .team-card, .slide.active table, .slide.active .takeaway, .slide.active .stats-list, .slide.active .footer, .slide.active .right, .slide.active [data-zoom]').forEach(function (el) {
+    document.querySelectorAll('.slide:not([data-slide="1"]):not([data-slide="2"]) img, .slide:not([data-slide="1"]):not([data-slide="2"]) .text, .slide:not([data-slide="1"]):not([data-slide="2"]) .quote, .slide:not([data-slide="1"]):not([data-slide="2"]) .persona, .slide:not([data-slide="1"]):not([data-slide="2"]) .case-card-large, .slide:not([data-slide="1"]):not([data-slide="2"]) .team-card, .slide:not([data-slide="1"]):not([data-slide="2"]) table, .slide:not([data-slide="1"]):not([data-slide="2"]) .takeaway, .slide:not([data-slide="1"]):not([data-slide="2"]) .stats-list, .slide:not([data-slide="1"]):not([data-slide="2"]) .footer, .slide:not([data-slide="1"]):not([data-slide="2"]) .right, .slide:not([data-slide="1"]):not([data-slide="2"]) .nine-card, .slide:not([data-slide="1"]):not([data-slide="2"]) [data-zoom]').forEach(function (el) {
       if (el.dataset.zoomBound) return;
       el.dataset.zoomBound = '1';
       el.style.cursor = 'zoom-in';
@@ -1209,5 +1209,5 @@
   }
   document.addEventListener('DOMContentLoaded', markZoomable);
   const __zoomObs__ = new MutationObserver(markZoomable);
-  __zoomObs__.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  __zoomObs__.observe(document.body, { childList: true, subtree: true, characterData: true });
 })();
