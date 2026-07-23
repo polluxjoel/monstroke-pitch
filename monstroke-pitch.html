@@ -2386,12 +2386,6 @@ body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(-
   </div>
 </section>
 
-  <div class="footer">
-    <span>三方飞轮 · 闭环</span>
-    <span class="page-num">20 / 21</span>
-  </div>
-</section>
-
 <!-- ════════════════════════════════════════════════════════════════
      PART 5 · 收尾 (1)
      ════════════════════════════════════════════════════════════════ -->
@@ -2458,7 +2452,7 @@ document.querySelectorAll('.mini-nav .part').forEach(p => {
 });
 
 function show(n){
-  const slides = document.querySelectorAll('.slide');
+  const slides = document.querySelectorAll('.deck > .slide');
   const target = document.querySelector(`[data-slide="${n}"]`);
   if (!target) return;
   slides.forEach(s => s.classList.remove('active'));
