@@ -671,6 +671,7 @@ body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(-
   [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:repeat(3,1fr)!important;gap:6px!important}
 }
 </style>
+<link rel="stylesheet" href="assets/lib/photoswipe/photoswipe.css">
 </head>
 <body>
 
@@ -2573,30 +2574,6 @@ document.querySelectorAll('.toc-link[data-target-slide]').forEach(function(el){
   });
 });
 
-/* Mobile swipe navigation (手机滑动翻页) */
-(function(){
-  let sx=0, sy=0, st=0;
-  const deck = document.querySelector('.deck');
-  if (!deck) return;
-  deck.addEventListener('touchstart', function(e){
-    if (e.touches.length !== 1) return;
-    sx = e.touches[0].clientX;
-    sy = e.touches[0].clientY;
-    st = Date.now();
-  }, { passive: true });
-  deck.addEventListener('touchend', function(e){
-    if (e.changedTouches.length !== 1) return;
-    const dx = e.changedTouches[0].clientX - sx;
-    const dy = e.changedTouches[0].clientY - sy;
-    const dt = Date.now() - st;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2 && dt < 500) {
-      const cur = document.querySelector('.deck > .slide.active');
-      const curN = cur ? parseInt(cur.dataset.slide) : 1;
-      if (dx < 0) show(Math.min(21, curN + 1));
-      else show(Math.max(1, curN - 1));
-    }
-  }, { passive: true });
-})();
 
 /* 手机端：注入 CSS + JS 修复 (on every slide switch) */
 function applyMobileFixes(){
@@ -2669,6 +2646,96 @@ function applyMobileFixes(){
 
 applyMobileFixes();
 applyMobileFixes();
+</script>
+
+<script src="assets/lib/photoswipe/photoswipe.umd.min.js"></script>
+<script src="assets/lib/photoswipe/photoswipe-lightbox.umd.min.js"></script>
+<script>
+/* PhotoSwipe 初始化：所有 slide 图片支持双指缩放 */
+(function(){
+  if (typeof PhotoSwipeLightbox === 'undefined') return;
+  // 收集所有图片 → PhotoSwipe data source
+  var items = [];
+  document.querySelectorAll('.slide img').forEach(function(img){
+    if (img.closest('.case-card-large')) return; // 卡片图片走卡片弹窗
+    if (!img.src || img.naturalWidth === 0) return;
+    items.push({
+      src: img.src,
+      w: img.naturalWidth || 1200,
+      h: img.naturalHeight || 800,
+      alt: img.alt || ''
+    });
+  });
+  if (!items.length) return;
+  
+  var lightbox = new PhotoSwipeLightbox({
+    dataSource: items,
+    pswpModule: PhotoSwipe,
+    bgOpacity: 0.92,
+    padding: { top: 20, bottom: 20, left: 20, right: 20 },
+    loop: true,
+    pinchToClose: true,
+    closeOnVerticalDrag: true,
+    showHideAnimationType: 'zoom',
+    zoomAnimationDuration: 300,
+    maxWidthToAnimate: 400,
+    imageClickAction: 'zoom',
+    tapAction: 'toggle-controls',
+    doubleTapAction: 'zoom'
+  });
+  lightbox.init();
+  
+  // 点击图片 → 打开 lightbox
+  document.querySelectorAll('.slide img').forEach(function(img, idx){
+    if (img.closest('.case-card-large')) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function(e){
+      e.stopPropagation();
+      // 找到该图片在 items 中的索引
+      var imgIdx = 0;
+      document.querySelectorAll('.slide img').forEach(function(im, i){
+        if (im === img) imgIdx = i;
+      });
+      // 过滤掉加载失败的图片后重新计算索引
+      var validIdx = 0;
+      var found = 0;
+      document.querySelectorAll('.slide img').forEach(function(im){
+        if (!im.src || im.naturalWidth === 0) return;
+        if (im === img) { found = validIdx; }
+        validIdx++;
+      });
+      lightbox.loadAndOpen(found);
+    });
+  });
+})();
+
+/* 滑动惯性增强 (velocity tracking) */
+(function(){
+  var sx=0, sy=0, st=0, sTime=0;
+  var deck = document.querySelector('.deck');
+  if (!deck) return;
+  deck.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1) return;
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    sTime = Date.now();
+  }, { passive: true });
+  deck.addEventListener('touchend', function(e){
+    if (e.changedTouches.length !== 1) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    var dy = e.changedTouches[0].clientY - sy;
+    var dt = Date.now() - sTime;
+    var velocity = Math.abs(dx) / dt; // px/ms
+    // 惯性: 快速滑动即使距离短也翻页; 慢速滑动需要超过 1/4 屏宽
+    var threshold = velocity > 0.3 ? 20 : (window.innerWidth * 0.25);
+    if (Math.abs(dx) > threshold && Math.abs(dx) > Math.abs(dy) * 1.5 && dt < 600) {
+      var cur = document.querySelector('.deck > .slide.active');
+      var curN = cur ? parseInt(cur.dataset.slide) : 1;
+      if (dx < 0) show(Math.min(21, curN + 1));
+      else show(Math.max(1, curN - 1));
+    }
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>
