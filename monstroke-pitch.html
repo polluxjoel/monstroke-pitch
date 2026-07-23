@@ -662,7 +662,7 @@ body{margin:0;background:var(--mon-paper);color:var(--mon-ink);font-family:var(-
   .deck.bg-monster::before{opacity:.04!important}
 
   /* 单字或单图溢出保护 */
-  img{max-width:100%;height:auto}
+  img:not([style*="height"]){max-width:100%;height:auto}
 }
 
 /* 6 巨头卡（slide 8 在 768px 已是单列，在 480px 改成 3 列） */
