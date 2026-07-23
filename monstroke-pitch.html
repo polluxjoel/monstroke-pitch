@@ -2601,23 +2601,47 @@ document.querySelectorAll('.toc-link[data-target-slide]').forEach(function(el){
 /* 手机端：注入 CSS + JS 修复 (on every slide switch) */
 function applyMobileFixes(){
   if (window.innerWidth > 480) return;
+  // 所有 slide 可滚动
   document.querySelectorAll('.slide').forEach(function(s){s.style.overflowY='auto';s.style.overflowX='hidden';s.style.WebkitOverflowScrolling='touch'});
   var nav=document.querySelector('.mini-nav');if(nav)nav.style.display='none';
+
+  // S01: 图片布满全屏，内容面板缩小
+  var cs1=document.querySelector('[data-slide="1"] .content-side');
+  if(cs1){cs1.style.maxWidth='280px';cs1.style.padding='24px 20px';cs1.style.background='rgba(250,247,242,.88)';cs1.style.backdropFilter='blur(4px)';}
+
+  // S03: 卡片完整显示
   var g3=document.querySelector('[data-slide="3"] .why-grid');
   if(g3){g3.style.gridTemplateColumns='1fr';g3.style.width='100%';}
   var wl=document.querySelector('[data-slide="3"] .why-large');
-  if(wl){wl.style.gridRow='auto';wl.style.overflowY='auto';wl.style.maxHeight='none';}
+  if(wl){wl.style.gridRow='auto';wl.style.overflowY='auto';wl.style.maxHeight='none';wl.style.padding='14px';}
+  // S03: 卡片02/03 缩小
+  document.querySelectorAll('[data-slide="3"] .why-card').forEach(function(c){c.style.padding='12px';c.style.maxHeight='220px';c.style.overflowY='auto';});
+
+  // S04: 完整显示每张卡片内容
+  var s4b=document.querySelector('[data-slide="4"]');
+  if(s4b){s4b.style.padding='8px 8px 20px';}
+  document.querySelectorAll('[data-slide="4"] [class*="persona"]').forEach(function(c){c.style.padding='8px 10px';});
+
+  // S05: 9 cards 纵排
   document.querySelectorAll('[data-slide="5"] [style*="flex:1;min-height"]').forEach(function(el){el.style.flexDirection='column';});
+
+  // S06: 可滚动
   var cs6=document.querySelector('[data-slide="6"] .content-side');
   if(cs6){cs6.style.overflowY='auto';cs6.style.padding='10px';cs6.style.maxWidth='100%';}
+
+  // S07: LOGO在上
   var d7=document.querySelector('[data-slide="7"] .deco-tag');
   if(d7){d7.style.right='4px';d7.style.bottom='40px';d7.style.top='auto';d7.style.zIndex='1';}
   var lg7=document.querySelector('[data-slide="7"] .logos-grid');
   if(lg7){lg7.style.zIndex='5';lg7.style.position='relative';}
+
+  // S14: 团队 2列
   var team=document.querySelector('.team');
   if(team){team.style.gridTemplateColumns='repeat(2,1fr)';}
   document.querySelectorAll('.team-card .portrait').forEach(function(el){el.style.height='80px'});
   document.querySelectorAll('.team-card').forEach(function(c){c.style.padding='4px'});
+
+  // S15: 视频+图片纵排
   document.querySelectorAll('video').forEach(function(v){v.style.display='block'});
   var s15=document.querySelector('[data-slide="15"]');
   if(s15){s15.style.padding='0';}
@@ -2625,7 +2649,11 @@ function applyMobileFixes(){
   if(f15){f15.style.flexDirection='column';}
   var f15b=document.querySelector('[data-slide="15"] [style*="flex:0.8"]');
   if(f15b){f15b.style.flexDirection='column';}
+
+  // S18/S19: 单列
   document.querySelectorAll('[data-slide="18"] [style*="1.4fr"], [data-slide="19"] [style*="1.2fr"]').forEach(function(el){el.style.gridTemplateColumns='1fr';});
+
+  // 点击放大卡片
   document.querySelectorAll('.case-card-large').forEach(function(card){
     if(card.dataset.zm)return;card.dataset.zm='1';card.style.cursor='pointer';
     card.onclick=function(e){e.stopPropagation();
