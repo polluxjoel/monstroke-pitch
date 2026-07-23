@@ -2533,13 +2533,13 @@ function show(n){
   target.classList.add('active');
   const pct = (n / 21) * 100;
   document.getElementById('progress').style.width = pct + '%';
-  // slide 1-8 保持 plush-toys 背景
   const deck = document.querySelector('.deck');
   if (deck) {
     if (n >= 1 && n <= 8) deck.classList.add('bg-monster');
     else deck.classList.remove('bg-monster');
   }
   location.hash = '#/' + n;
+  if (typeof applyMobileFixes === 'function') applyMobileFixes();
 }
 
 window.addEventListener('hashchange', () => {
@@ -2597,6 +2597,40 @@ document.querySelectorAll('.toc-link[data-target-slide]').forEach(function(el){
     }
   }, { passive: true });
 })();
+
+/* 手机端：注入 CSS + JS 修复 (on every slide switch) */
+function applyMobileFixes(){
+  if (window.innerWidth > 480) return;
+  document.querySelectorAll('.slide').forEach(function(s){s.style.overflowY='auto';s.style.overflowX='hidden';s.style.WebkitOverflowScrolling='touch'});
+  var nav=document.querySelector('.mini-nav');if(nav)nav.style.display='none';
+  // S07 deco-tag
+  var d7=document.querySelector('[data-slide="7"] .deco-tag');
+  if(d7){d7.style.right='4px';d7.style.bottom='40px';d7.style.top='auto';}
+  // Team cards
+  document.querySelectorAll('.team-card').forEach(function(c){c.style.padding='4px'});
+  // Click-to-zoom
+  document.querySelectorAll('.case-card-large').forEach(function(card){
+    if(card.dataset.zm)return;card.dataset.zm='1';card.style.cursor='pointer';
+    card.onclick=function(e){e.stopPropagation();
+      var ov=document.createElement('div');
+      ov.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(15,10,8,.92);display:flex;align-items:center;justify-content:center;padding:20px;cursor:pointer';
+      var cl=card.cloneNode(true);
+      cl.style.cssText='max-width:95vw;max-height:90vh;overflow:auto;background:#faf7f2;border-radius:8px;padding:20px;font-size:16px;line-height:1.5';
+      cl.querySelectorAll('.stats-list,.quote').forEach(function(el){el.style.display=''});
+      ov.appendChild(cl);ov.onclick=function(){ov.remove()};document.body.appendChild(ov);
+    };
+  });
+}
+
+/* 注入手机 CSS */
+(function(){
+  if(window.innerWidth>480)return;
+  var s=document.createElement('style');s.id='_m_';
+  s.textContent='.mini-nav{display:none!important}.slide{overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch!important}.slide:not([data-slide="1"]){padding:6px 8px 20px!important}.footer{position:relative!important;margin-top:12px!important;font-size:7px!important}.h2{font-size:15px!important}.page-header h2{font-size:14px!important}.page-header .right{font-size:8px!important}[data-slide="3"] [style*="1.4fr"]{grid-template-columns:1fr!important}[data-slide="5"] [style*="display:flex;gap:8px;flex:1"]{flex-direction:column!important}[data-slide="6"] .content-side{overflow-y:auto!important;padding:10px!important;max-width:100%!important}[data-slide="6"] .text{font-size:16px!important}[data-slide="7"] .logos-grid{z-index:5!important;position:relative!important}[data-slide="7"] .deco-tag{z-index:1!important}.team{grid-template-columns:repeat(2,1fr)!important}.team-card .portrait{height:80px!important}video{display:block!important}[data-slide="15"]{padding:0!important}[data-slide="15"] [style*="height:100%"]{flex-direction:column!important}[data-slide="15"] [style*="flex:0.8"]{flex-direction:column!important}[data-slide="18"] [style*="1.4fr"]{grid-template-columns:1fr!important}[data-slide="19"] [style*="1.2fr"]{grid-template-columns:1fr!important}[style*="font-size:96px"]{font-size:42px!important}[style*="font-size:80px"]{font-size:36px!important}img{max-width:100%!important;height:auto!important}';
+  document.head.appendChild(s);
+  applyMobileFixes();
+})();
+applyMobileFixes();
 </script>
 </body>
 </html>
