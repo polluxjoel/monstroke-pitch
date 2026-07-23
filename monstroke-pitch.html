@@ -2498,6 +2498,31 @@ document.querySelectorAll('.toc-link[data-target-slide]').forEach(function(el){
     if (target) show(target);
   });
 });
+
+/* Mobile swipe navigation (手机滑动翻页) */
+(function(){
+  let sx=0, sy=0, st=0;
+  const deck = document.querySelector('.deck');
+  if (!deck) return;
+  deck.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1) return;
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+    st = Date.now();
+  }, { passive: true });
+  deck.addEventListener('touchend', function(e){
+    if (e.changedTouches.length !== 1) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    const dt = Date.now() - st;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.2 && dt < 500) {
+      const cur = document.querySelector('.deck > .slide.active');
+      const curN = cur ? parseInt(cur.dataset.slide) : 1;
+      if (dx < 0) show(Math.min(21, curN + 1));
+      else show(Math.max(1, curN - 1));
+    }
+  }, { passive: true });
+})();
 </script>
 <script src="assets/runtime.js"></script>
 </body>

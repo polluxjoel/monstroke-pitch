@@ -1135,15 +1135,8 @@
         else go(idx - 1);        // 右滑 → 上一页
       }
     }, { passive: true });
-    // tap 右半屏 → 下一页，tap 左半屏 → 上一页
-    deck.addEventListener('click', function (e) {
-      if (e.target.closest('a,button,.card,[data-anim-target],.overview,.notes-overlay')) return;
-      const x = e.clientX / window.innerWidth;
-      if (window.innerWidth <= 768) {
-        if (x > 0.65) go(idx + 1);
-        else if (x < 0.35) go(idx - 1);
-      }
-    });
+    // Mobile tap-click 翻页 禁用 — 让 inline JS show() 主导, 避免与 zoom click 冲突
+    // 用 swipe (左/右滑) 翻页
 
     // hash deep-link
     function fromHash(){
